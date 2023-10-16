@@ -1,11 +1,12 @@
 #pragma once
 #include "log.h"
+
 #ifdef BR_PLATFORM_WINDOWS
 extern BEngine::Application* BEngine::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	BEngine::Log::Init();
+	BEngine::Log::Init(); 
 	BR_CORE_WARN("Initialized Log!");
 	BR_CLIENT_INFO("Hello");
 

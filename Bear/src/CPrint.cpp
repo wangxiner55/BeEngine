@@ -7,6 +7,6 @@ namespace G
 	
 	void print()
 	{
-		std::cout << "S" << std::endl;
+		std::cout << "This is Extend Testing , successful" << std::endl;
 	}
 }

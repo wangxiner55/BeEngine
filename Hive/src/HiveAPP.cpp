@@ -1,6 +1,4 @@
-#include "Bear/Application.h"
-#include "Bear/Core.h"
-#include "Bear/EntryPoint.h"
+#include "Bear.h"
 
 
 class Hive : public BEngine::Application

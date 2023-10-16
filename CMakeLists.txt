@@ -9,13 +9,16 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project (cmake_test)
+project (Engine)
 
-# 包含子项目。
-add_subdirectory (Bear)
+#包含子项目。
+add_subdirectory(Bear)
 add_subdirectory(Hive)
 add_subdirectory(Dep/spdlog)
+add_subdirectory(Dep/glfw)
 
+
+#设置路径别名
 set(CURRENT_DIR ${CMAKE_CURRENT_SOURCE_DIR})  
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(BIN_DIR		${CMAKE_SOURCE_DIR}/bin)

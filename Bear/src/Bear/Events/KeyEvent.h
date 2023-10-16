@@ -3,8 +3,6 @@
 #include "Event.h"
 
 
-#include <sstream>
-
 namespace BEngine
 {
 	class BEAR_API KeyEvent : public Event

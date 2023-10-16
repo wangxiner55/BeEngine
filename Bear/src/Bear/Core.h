@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 
 #ifdef BR_PLATFORM_WINDOWS
 	#ifdef BR_BUILD_DLL
