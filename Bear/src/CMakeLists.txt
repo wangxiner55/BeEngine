@@ -5,7 +5,7 @@ add_compile_definitions(BR_PLATFORM_WINDOWS BR_BUILD_DLL)
 
 
 #生成dll库文件
-file(GLOB_RECURSE RSOURCES "Bear/*.cpp")
+file(GLOB_RECURSE RSOURCES "./*.cpp" )
 add_library(DllExport SHARED ${RSOURCES} CPrint.cpp Bear.h "PreComHead.h")
 
 
@@ -17,18 +17,20 @@ find_library(FIND_spdlog_LIB_DIR spdlogd HINTS ${CMAKE_BINARY_DIR}/Dep)
 find_library(FIND_glfw_LIB_DIR glfw3 HINTS ${CMAKE_BINARY_DIR}/Dep)
 message(status " Find glfw : ${FIND_glfw_LIB_DIR}")
 
+
+
 #附加包含目录
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Dep/spdlog/include)
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Dep/glfw/include)
 
 #附加库目录
-target_link_directories(DllExport PRIVATE ${FIND_spdlog_LIB_DIR})
-target_link_directories(DllExport PRIVATE ${FIND_glfw_LIB_DIR})
+target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Dep/spdlog)
+target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Dep/glfw/src)
 
 #附加依赖项
 target_link_libraries(DllExport PRIVATE glfw3)
 target_link_libraries(DllExport PRIVATE spdlog)
-
+target_link_libraries(DllExport PRIVATE OpenGL32)
 
 #安装到指定文件夹
 install(TARGETS DllExport DESTINATION ${CMAKE_SOURCE_DIR}/lib)

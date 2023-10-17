@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "Bear/log.h"
+
 #ifdef BR_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif // #ifdef BR_PLATFORM_WINDOWS

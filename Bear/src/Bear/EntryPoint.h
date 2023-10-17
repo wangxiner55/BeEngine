@@ -1,5 +1,4 @@
 #pragma once
-#include "log.h"
 
 #ifdef BR_PLATFORM_WINDOWS
 extern BEngine::Application* BEngine::CreateApplication();
