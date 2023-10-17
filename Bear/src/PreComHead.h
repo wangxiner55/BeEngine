@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 #include <iostream>
 #include <memory>
 #include <utility>
@@ -12,7 +14,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Bear/log.h"
 
 #ifdef BR_PLATFORM_WINDOWS
 	#include <Windows.h>

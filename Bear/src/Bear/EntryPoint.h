@@ -1,4 +1,5 @@
 #pragma once
+#include "Bear/log.h"
 
 #ifdef BR_PLATFORM_WINDOWS
 extern BEngine::Application* BEngine::CreateApplication();

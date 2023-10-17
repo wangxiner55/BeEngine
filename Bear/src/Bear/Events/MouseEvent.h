@@ -53,7 +53,7 @@ namespace BEngine
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
 	private:
-		float m_XOffset, m_YOffset
+		float m_XOffset, m_YOffset;
 
 
 	};
