@@ -4,7 +4,7 @@
 
 namespace BEngine
 {
-	class ImGuiLayer : public Layer
+	class BEAR_API ImGuiLayer : public Layer
 	{
 	public:
 		ImGuiLayer();
@@ -15,5 +15,7 @@ namespace BEngine
 		virtual void OnUpdate() override;
 		virtual void OnEvent(Event& event) override;
 
+	private:
+		float m_time = 0.0;
 	};
 }
