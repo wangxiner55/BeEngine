@@ -7,7 +7,8 @@
 #include "Platform/OpenGL/ImGuiOpenGlRenderer.h"
 #include "GLFW/glfw3.h"
 #include "Launch/Application.h"
-
+#include "Platform/Windows/WindowsWindow.h"
+#include "Core/Log/log.h"
 
 
 
@@ -23,20 +24,22 @@ namespace BEngine
 
 	void ImGuiLayer::OnAttach()
 	{
-		/*IMGUI_CHECKVERSION();
-		ImGui::CreateContext();*/
-		//ImGui::StyleColorsDark();
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGui::StyleColorsDark();
 
-		//ImGuiIO& io = ImGui::GetIO();
-		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-		//io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-		//io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+		ImGuiIO& io = ImGui::GetIO();
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 
-
-		////Window& window = Application::GetWindow();
-		////ImGui_ImplGlfw_InitForOpenGL(Application::GetWindow(), true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
-		//ImGui_ImplOpenGL3_Init("#version 410");
+		Application& app = Application::Get();
+		
+		WindowsWindow* Win = dynamic_cast<WindowsWindow*>(&app.GetWindow());
+		GLFWwindow* Window = &Win->GetGLFWwindow();
+		ImGui_ImplGlfw_InitForOpenGL(Window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+		ImGui_ImplOpenGL3_Init("#version 410");
 
 	}
 
@@ -46,22 +49,22 @@ namespace BEngine
 
 	void ImGuiLayer::OnUpdate()
 	{
-		//ImGui_ImplOpenGL3_NewFrame();
-		//ImGui_ImplGlfw_NewFrame();
-		//ImGui::NewFrame();
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 
-		//ImGuiIO& io = ImGui::GetIO();
-		//Application& app = Application::Get();
-		//io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+		ImGuiIO& io = ImGui::GetIO();
+		Application& app = Application::Get();
+		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 
-		//float time = (float)glfwGetTime();
-		//io.DeltaTime = m_time > 0.0f ? (time - m_time) : (1.0f / 60.f);
+		float time = (float)glfwGetTime();
+		io.DeltaTime = m_time > 0.0f ? (time - m_time) : (1.0f / 60.f);
 
-		//static bool show = true;
-		//ImGui::ShowDemoWindow(&show);
+		static bool show = true;
+		ImGui::ShowDemoWindow(&show);
 
-		//ImGui::Render();
-		//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
 	void ImGuiLayer::OnEvent(Event& event)

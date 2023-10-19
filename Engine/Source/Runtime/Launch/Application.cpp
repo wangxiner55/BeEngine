@@ -4,7 +4,7 @@
 
 #include "GLFW/glfw3.h"
 #include "../Core/Log/log.h"
-
+#include "Platform/Windows/WindowsWindow.h"
 
 namespace BEngine
 {
@@ -19,6 +19,7 @@ namespace BEngine
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(EVENT_BIND(Application::OnEvent));
+		
 	}
 
 	Application::~Application()

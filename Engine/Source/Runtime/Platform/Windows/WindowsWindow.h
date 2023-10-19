@@ -19,6 +19,7 @@ namespace BEngine
 		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		virtual void SetVSync(bool enabled) override;
 		virtual bool IsVSync() const override;
+		GLFWwindow& GetGLFWwindow() { return *m_Window; }
 	
 	private:
 		virtual void Init(const WindowProps& props);
