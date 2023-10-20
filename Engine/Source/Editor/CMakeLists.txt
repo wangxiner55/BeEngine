@@ -11,6 +11,7 @@ install(TARGETS LaunchApp_Start DESTINATION ${CMAKE_SOURCE_DIR}/lib)
 #附加包含目录
 target_include_directories(LaunchApp_Start PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/spdlog/include)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/imgui)
+include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glm)
 #target_include_directories(LaunchApp_Start PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glfw/include)
 #include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/include)
 

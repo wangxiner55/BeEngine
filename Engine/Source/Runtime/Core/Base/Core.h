@@ -25,8 +25,11 @@
 #endif // HZ_ENABLE_ASSERTS
 
 
-
 #define BIT(x) (1 << x)
+
+
+
+#define EVENT_BIND(x) std::bind(&x, this, std::placeholders::_1)
 
 
 #endif // !CORE_COMP

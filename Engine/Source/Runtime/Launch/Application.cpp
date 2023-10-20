@@ -1,10 +1,12 @@
 #include "Application.h"
-#include "../Engine/Events/ApplicationEvent.h"
+#include <GLFW/glfw3.h>
 #include "Core/Base/Core.h"
 
-#include "GLFW/glfw3.h"
 #include "../Core/Log/log.h"
+#include "../Engine/Events/ApplicationEvent.h"
 #include "Platform/Windows/WindowsWindow.h"
+#include "Engine/Input/Input.h"
+
 
 namespace BEngine
 {
@@ -72,6 +74,10 @@ namespace BEngine
 			{
 				layer->OnUpdate();
 			}
+
+
+			auto [x, y] = Input::GetMousePos();
+			BR_CORE_TRACE("{0},{1}", x, y);
 
 			m_Window->OnUpdate();
 			

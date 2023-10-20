@@ -1,6 +1,8 @@
 #include "Launch/Application.h"
 #include "Bear.h"
 #include "imgui.h"
+#include "glm/glm.hpp"
+
 
 class ExampleLayer : public BEngine::Layer
 {
@@ -9,7 +11,7 @@ public:
 	ExampleLayer()
 		:BEngine::Layer("Example")
 	{
-
+		glm::abs(5);
 	}
 
 	void OnUpdate() override
@@ -30,7 +32,6 @@ class Launch : public BEngine::Application
 public:
 	Launch(){ 
 		std::cout << "cons Hive" << std::endl; 
-		PushLayer(new ExampleLayer());
 		PushLayer(new BEngine::ImGuiLayer());
 	}
 	~Launch() { std::cout << "Dre Hive" << std::endl; }

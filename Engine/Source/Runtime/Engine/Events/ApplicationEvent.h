@@ -15,7 +15,7 @@ namespace BEngine
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "WindowResizeEvent: " << m_width << ", " << m_height;
+			ss << "WindowResizeEvent: " << m_width << ", ,," << m_height;
 			return ss.str();
 		}
 
