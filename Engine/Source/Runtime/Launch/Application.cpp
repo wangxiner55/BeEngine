@@ -6,6 +6,7 @@
 #include "../Core/Log/log.h"
 #include "Platform/Windows/WindowsWindow.h"
 
+
 namespace BEngine
 {
 #define EVENT_BIND(x) std::bind(&x, this, std::placeholders::_1)

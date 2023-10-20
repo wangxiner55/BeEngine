@@ -1,5 +1,8 @@
 #pragma once
 #include "Engine/Layer/Layer.h"
+#include "Engine/Events/KeyEvent.h"
+#include "Engine/Events/MouseEvent.h"
+#include "Engine/Events/ApplicationEvent.h"
 
 
 namespace BEngine
@@ -14,6 +17,17 @@ namespace BEngine
 		virtual void OnDetach() override;
 		virtual void OnUpdate() override;
 		virtual void OnEvent(Event& event) override;
+	private:
+
+		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
+		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
+		bool OnMouseMovedEvent(MouseMovedEvent& e);
+		bool OnMouseScrolledEvent(MouseScrolledEvent& e);
+		bool OnKeyPressedEvent(KeyPressedEvent& e);
+		bool OnKeyReleasedEvent(KeyReleasedEvent& e);
+		//bool OnKeyTypedEvent(KeyTypeEvent& e);
+		bool OnWindowResizeEvent(WindowResizeEvent& e);
+
 
 	private:
 		float m_time = 0.0;
