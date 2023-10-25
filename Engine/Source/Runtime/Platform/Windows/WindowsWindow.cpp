@@ -1,11 +1,11 @@
-#include "glad/glad.h"
+#include <glad/glad.h>
 #include "WindowsWindow.h"
 #include "Core/Base/Core.h"
 #include "Engine/Events/ApplicationEvent.h"
 #include "Engine/Events/Event.h"
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/MouseEvent.h"
-#include "Core/Log/log.h"
+#include "Platform/OpenGL/Graphics/OpenGLContext.h"
 
 namespace BEngine
 {
@@ -33,7 +33,8 @@ namespace BEngine
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
+		
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
@@ -66,8 +67,12 @@ namespace BEngine
 		}
 
 		m_Window = glfwCreateWindow((int)props._width, (int)props._height, props._title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-		//int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+
+		
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
@@ -155,7 +160,7 @@ namespace BEngine
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-				MouseMovedEvent event(xpos, ypos);
+				MouseMovedEvent event((float)xpos, (float)ypos);
 				data.EventCallback(event);
 			});
 

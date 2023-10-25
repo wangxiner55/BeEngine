@@ -31,10 +31,9 @@ class Launch : public BEngine::Application
 {
 public:
 	Launch(){ 
-		std::cout << "cons Hive" << std::endl; 
-		PushLayer(new BEngine::ImGuiLayer());
+
 	}
-	~Launch() { std::cout << "Dre Hive" << std::endl; }
+	~Launch() { }
 
 };
 

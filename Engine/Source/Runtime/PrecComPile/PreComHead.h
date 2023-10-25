@@ -15,6 +15,9 @@
 #include <unordered_set>
 #include <typeinfo>
 
+#include "Core/Log/log.h"
+#include "Core/Base/Core.h"
+
 #ifdef BR_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif // #ifdef BR_PLATFORM_WINDOWS

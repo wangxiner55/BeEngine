@@ -5,11 +5,15 @@
 
 
 #ifdef BR_PLATFORM_WINDOWS
+#if BR_DYNAMIC_LINK
 	#ifdef BR_BUILD_DLL
 		#define BEAR_API __declspec(dllexport)
 	#else 
 		#define BEAR_API __declspec(dllimport)
 	#endif // BR_BUILD_DLL
+#else
+	#define BEAR_API
+#endif
 #else
 #error Hazel only support windows!
 #endif // BR_PLATFORM_WINDOWS

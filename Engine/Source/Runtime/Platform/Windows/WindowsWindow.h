@@ -5,6 +5,7 @@
 
 namespace BEngine
 {
+	class OpenGLContext;
 	class BEAR_API WindowsWindow : public Window
 	{
 	public:
@@ -21,7 +22,7 @@ namespace BEngine
 		virtual bool IsVSync() const override;
 		virtual void* GetNativeWindow() const override { return m_Window; };
 		GLFWwindow& GetGLFWwindow() { return *m_Window; }
-	
+		OpenGLContext* m_Context;
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();

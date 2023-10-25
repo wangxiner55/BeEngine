@@ -6,17 +6,16 @@ project(Core CXX)
 
 #生成dll库文件
 file(GLOB_RECURSE RSOURCES "./*.cpp" "./*.h")
-add_library(DllExport SHARED ${RSOURCES})
-
-
-#设置头文件索引
-target_include_directories(DllExport PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+#add_library(DllExport SHARED ${RSOURCES})
+add_library(DllExport STATIC ${RSOURCES})
 
 
 #附加包含目录
+target_include_directories(DllExport PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/include)
+target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/src)
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/spdlog/include)
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glfw/include)
-include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/include)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glm)
 
@@ -25,6 +24,7 @@ include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glm)
 target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/spdlog)
 target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/glfw/src)
 target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/imgui)
+target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/glad)
 
 #附加依赖项
 #target_link_libraries(DllExport PRIVATE legacy_stdio_definitions)
@@ -32,6 +32,7 @@ target_link_libraries(DllExport PRIVATE GUIExport)
 target_link_libraries(DllExport PRIVATE opengl32)
 target_link_libraries(DllExport PRIVATE glfw3)
 target_link_libraries(DllExport PRIVATE spdlog)
+target_link_libraries(DllExport PRIVATE glad)
 
 #target_link_options(DllExport PRIVATE /NODEFAULTLIB:MSVCRT.lib)
 
@@ -43,7 +44,7 @@ add_compile_definitions(BR_BUILD_DLL)
 target_link_options(DllExport PRIVATE /NODEFAULTLIB:MSVCRT.lib)
 
 #安装到指定文件夹
-install(TARGETS DllExport DESTINATION ${CMAKE_SOURCE_DIR}/lib)
+#install(TARGETS DllExport DESTINATION ${CMAKE_SOURCE_DIR}/lib)
 
 #设置预编译头
 target_precompile_headers(DllExport PUBLIC PrecComPile/PreComHead.h)
@@ -59,7 +60,7 @@ set_property(TARGET DllExport PROPERTY
 
 
 #  Imgui Test Modeule , We Need move to A New File Context
-add_executable(Imgui_Start "Platform/OpenGL/main.cpp" "Platform/OpenGL/imgui_impl_opengl3_loader.h" "Platform/OpenGL/imgui_impl_glfw.h" "Platform/OpenGL/imgui_impl_glfw.cpp" "Platform/OpenGL/ImGuiOpenGlRenderer.h" "Platform/OpenGL/ImGuiOpenGlRenderer.cpp")
+add_executable(Imgui_Start "Platform/OpenGL/imgui/main.cpp" "Platform/OpenGL/imgui/imgui_impl_opengl3_loader.h" "Platform/OpenGL/imgui/imgui_impl_glfw.h" "Platform/OpenGL/imgui/imgui_impl_glfw.cpp" "Platform/OpenGL/imgui/imgui_impl_opengl3.h" "Platform/OpenGL/imgui/imgui_impl_opengl3.cpp")
 
 
 #target_include_directories(Imgui_Start PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glfw/include)
