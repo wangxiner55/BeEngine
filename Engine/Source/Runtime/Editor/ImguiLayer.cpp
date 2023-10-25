@@ -100,6 +100,7 @@ namespace BEngine
 			glfwMakeContextCurrent(backup_current_context);
 		}
 
+	void ImGuiLayer::OnEvent(Event& event)
+	{
 	}
-
 }
