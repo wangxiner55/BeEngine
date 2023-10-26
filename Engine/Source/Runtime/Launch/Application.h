@@ -5,6 +5,7 @@
 #include "../Editor/ImguiLayer.h"
 #include "Engine/Render/Buffer.h"
 #include "Engine/Render/VertexArray.h"
+#include "../Engine/Render/OrthographicCamera.h"
 
 namespace BEngine
 {
@@ -29,18 +30,12 @@ namespace BEngine
 		inline static Application& Get() { return *s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
-
 		ImGuiLayer* m_ImGuiLayer;
 
 		bool m_Running = true;
+		LayerStack m_LayerStack;
 		std::shared_ptr<Window> m_Window;
 
-		std::shared_ptr<VertexArray> m_VertexArray;
-		std::shared_ptr<VertexArray> m_SqrVertexArray;
-		std::shared_ptr<Shader> m_shader;
-		std::shared_ptr<Shader> m_Sqrshader;
-		
-		LayerStack m_LayerStack;
 
 
 

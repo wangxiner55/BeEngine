@@ -8,6 +8,11 @@
 #include "Engine/Render/Shader.h"
 #include "Engine/Render/Buffer.h"
 #include "Engine/Input/Input.h"
+#include "Engine/Render/Render.h"
+#include "Engine/Render/RenderCommand.h"
+
+
+#include "Engine/Render/OrthographicCamera.h"
 
 
 namespace BEngine
@@ -31,124 +36,6 @@ namespace BEngine
 		m_ImGuiLayer = new ImGuiLayer;
 		PushOverlay(m_ImGuiLayer);
 
-
-
-		float vertices[] = {
-			 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f,// top right
-			 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f,// bottom right
-			 0.0f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f, 1.0f,// bottom left
-			 0.0f,  0.5f, 0.0f,  0.5f, 0.5f, 0.5f, 1.0f // top left 
-		};
-
-		float sqrvertices[] = {
-			 0.0f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f,// top right
-			 0.0f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f,// bottom right
-			-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f, 1.0f,// bottom left
-			-0.5f,  0.5f, 0.0f,  0.5f, 0.5f, 0.5f, 1.0f // top left 
-		};
-
-		unsigned int indices[] = {
-			0, 1, 3, // 第一个三角形
-			1, 2, 3  // 第二个三角形
-		};
-
-
-		std::string vertexShaderSource = "#version 330 core\n"
-			"layout (location = 0) in vec3 aPos;\n"
-			"layout (location = 1) in vec4 aCol;\n"
-			"out vec3 v_Position;\n"
-			"out vec4 v_Color;\n"
-			"void main()\n"
-			"{\n"
-			"   v_Position = aPos;\n"
-			"   v_Color = aCol;\n"
-			"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-			"}\0";
-
-		std::string fragmentShaderSource = "#version 330 core\n"
-			"in vec3 v_Position;\n"
-			"in vec4 v_Color;\n"
-			"out vec4 FragColor;\n"
-			"void main()\n"
-			"{\n"
-			"   FragColor = vec4(v_Color);\n"
-			"}\n\0";
-
-
-
-		std::string SqrvertexShaderSource = "#version 330 core\n"
-			"layout (location = 0) in vec3 aPos;\n"
-			"layout (location = 1) in vec4 aCol;\n"
-			"out vec3 v_Position;\n"
-			"out vec4 v_Color;\n"
-			"void main()\n"
-			"{\n"
-			"   v_Position = aPos;\n"
-			"   v_Color = aCol;\n"
-			"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-			"}\0";
-
-		std::string SqrfragmentShaderSource = "#version 330 core\n"
-			"in vec3 v_Position;\n"
-			"in vec4 v_Color;\n"
-			"out vec4 FragColor;\n"
-			"void main()\n"
-			"{\n"
-			"   FragColor = vec4(1.0,1.0,0.0,1.0);\n"
-			"}\n\0";
-
-
-		m_VertexArray.reset(VertexArray::Create());
-
-		std::shared_ptr<VertexBuffer> vertexBuffer;
-		std::shared_ptr<IndexBuffer> indexBuffer;
-		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices)/sizeof(uint32_t)));
-
-		{
-			BufferLayout layout =
-			{
-				{ShaderDataType::Float3, "a_Position"},
-				{ShaderDataType::Float4, "a_Color"}
-			};
-
-			vertexBuffer->SetLayout(layout);
-		}
-
-		m_VertexArray->AddVertexBuffer(vertexBuffer);
-		m_VertexArray->SetIndexBuffer(indexBuffer);
-
-		m_shader.reset(new Shader(vertexShaderSource, fragmentShaderSource));
-
-
-
-
-
-		m_SqrVertexArray.reset(VertexArray::Create());
-
-		std::shared_ptr<VertexBuffer> SqrvertexBuffer;
-		std::shared_ptr<IndexBuffer> SqrindexBuffer;
-		SqrvertexBuffer.reset(VertexBuffer::Create(sqrvertices, sizeof(sqrvertices)));
-		SqrindexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-
-		{
-			BufferLayout layout =
-			{
-				{ShaderDataType::Float3, "a_Position"},
-				{ShaderDataType::Float4, "a_Color"}
-			};
-
-			SqrvertexBuffer->SetLayout(layout);
-		}
-
-		m_SqrVertexArray->AddVertexBuffer(SqrvertexBuffer);
-		m_SqrVertexArray->SetIndexBuffer(SqrindexBuffer);
-
-		m_Sqrshader.reset(new Shader(SqrvertexShaderSource, SqrfragmentShaderSource));
-	
-		
-
-		
 	}
 
 	Application::~Application()
@@ -193,19 +80,6 @@ namespace BEngine
 	{
 		while (m_Running)
 		{
-
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			m_Sqrshader->Bind();
-			m_SqrVertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_SqrVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, 0);
-
-
-			m_shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, 0);
-
 			for (Layer* layer : m_LayerStack)
 			{
 				layer->OnUpdate();
