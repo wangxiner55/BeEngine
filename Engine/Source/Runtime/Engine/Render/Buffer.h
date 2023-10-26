@@ -78,6 +78,7 @@ namespace BEngine
 		std::vector<BufferElements>::iterator end() { return m_Elements.end(); }
 		std::vector<BufferElements>::const_iterator begin() const{ return m_Elements.begin(); }
 		std::vector<BufferElements>::const_iterator end() const { return m_Elements.end(); }
+		inline const std::vector<BufferElements>& GetElements() const { return m_Elements; }
 	private:
 		void CalculateOffsetsAndStride()
 		{
@@ -90,7 +91,6 @@ namespace BEngine
 				m_Stride += element.Size;
 			}
 		}
-		inline const std::vector<BufferElements>& GetElements() const { return m_Elements; }
 	private:
 		std::vector<BufferElements> m_Elements;
 		uint32_t m_Stride;

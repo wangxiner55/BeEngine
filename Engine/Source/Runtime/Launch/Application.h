@@ -4,6 +4,7 @@
 #include "../Engine/Layer/LayerStack.h"
 #include "../Editor/ImguiLayer.h"
 #include "Engine/Render/Buffer.h"
+#include "Engine/Render/VertexArray.h"
 
 namespace BEngine
 {
@@ -28,16 +29,20 @@ namespace BEngine
 		inline static Application& Get() { return *s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
+
 		ImGuiLayer* m_ImGuiLayer;
-		std::unique_ptr<Window> m_Window;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
+
 		bool m_Running = true;
+		std::shared_ptr<Window> m_Window;
+
+		std::shared_ptr<VertexArray> m_VertexArray;
+		std::shared_ptr<VertexArray> m_SqrVertexArray;
+		std::shared_ptr<Shader> m_shader;
+		std::shared_ptr<Shader> m_Sqrshader;
+		
 		LayerStack m_LayerStack;
 
-		unsigned int VBO, VAO, EBO;
 
-		std::unique_ptr<Shader> m_shader;
 
 	private:
 		static Application* s_Instance;

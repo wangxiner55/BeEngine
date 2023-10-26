@@ -3,6 +3,7 @@
 
 namespace BEngine
 {
+	// OpenGL Vertex Buffer
 
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
 	{
@@ -24,7 +25,7 @@ namespace BEngine
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-
+	
 	// OpenGL Index buffer
 
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count) : m_Count(count)
