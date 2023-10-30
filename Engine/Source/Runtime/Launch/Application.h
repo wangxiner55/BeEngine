@@ -37,7 +37,7 @@ namespace BEngine
 		std::shared_ptr<Window> m_Window;
 
 
-
+		float m_LastFrameTime = 0.0f;
 
 	private:
 		static Application* s_Instance;

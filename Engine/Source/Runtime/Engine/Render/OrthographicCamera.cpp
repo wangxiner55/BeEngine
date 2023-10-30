@@ -7,7 +7,7 @@
 namespace BEngine
 {
 
-	OrthographicCamera::OrthographicCamera()
+	OrthographicCamera::OrthographicCamera() 
 	{
 		m_ProjectionMatrix = (glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
 		m_MVMatrix = m_ProjectionMatrix * m_ViewMatrix;
@@ -17,7 +17,7 @@ namespace BEngine
 	void OrthographicCamera::RecalculateViewMatrix()
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0), m_Position);
-		transform *= glm::rotate(glm::mat4(1.0f), glm::radians(m_Rotation), glm::vec3(0, 0, 1));
+		transform *= glm::rotate(glm::mat4(1.0f), glm::radians(m_RotationSpeed), glm::vec3(0, 0, 1));
 
 		m_ViewMatrix = (transform);
 		m_MVMatrix = m_ProjectionMatrix * m_ViewMatrix;
@@ -32,19 +32,19 @@ namespace BEngine
 	}
 	bool OrthographicCamera::OnKeyPressedEvent(KeyPressedEvent& event)
 	{
-		if (event.GetKeyCode() == BR_KEY_LEFT)
+		if (event.GetKeyCode() == BR_KEY_LEFT || event.GetKeyCode() == BR_KEY_A)
 		{
 			m_Position.x -= m_moveSpeed;
 		}
-		if (event.GetKeyCode() == BR_KEY_RIGHT)
+		if (event.GetKeyCode() == BR_KEY_RIGHT || event.GetKeyCode() == BR_KEY_D)
 		{
 			m_Position.x += m_moveSpeed;
 		}
-		if (event.GetKeyCode() == BR_KEY_DOWN)
+		if (event.GetKeyCode() == BR_KEY_DOWN || event.GetKeyCode() == BR_KEY_S)
 		{
 			m_Position.y -= m_moveSpeed;
 		}
-		if (event.GetKeyCode() == BR_KEY_UP)
+		if (event.GetKeyCode() == BR_KEY_UP || event.GetKeyCode() == BR_KEY_W)
 		{
 			m_Position.y += m_moveSpeed;
 		}

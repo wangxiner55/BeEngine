@@ -13,6 +13,8 @@ public:
 	ExampleLayer()
 		:m_CameraPosition(0.f)
 	{
+
+
 		float vertices[] = {
 			 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f,// top right
 			 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f,// bottom right
@@ -129,16 +131,17 @@ public:
 		//m_Sqrshader.reset(new BEngine::Shader(SqrvertexShaderSource, SqrfragmentShaderSource));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(BEngine::Timestep ts) override
 	{
+		//BR_CLIENT_TRACE("Delta time : {0}s ({1}ms)", ts.GetSeconds(),ts.GetMilliseconds());
 		BEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		BEngine::RenderCommand::Clear();
 
 		BEngine::Render::BeginScene(m_Camera);
 		//m_Camera->SetPosition(m_CameraPosition);
 		//m_Camera->SetRotation(45);
-		m_Camera->Tick();
-		std::cout << m_Camera->GetPosition().r << m_Camera->GetPosition().g << m_Camera->GetPosition().b << std::endl;
+		m_Camera->Tick(ts);
+		// std::cout << m_Camera->GetPosition().r << m_Camera->GetPosition().g << m_Camera->GetPosition().b << std::endl;
 		//BEngine::Render::Submit(m_SqrVertexArray, m_Sqrshader);
 
 

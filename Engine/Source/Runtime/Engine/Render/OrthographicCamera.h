@@ -16,7 +16,7 @@ namespace BEngine
 			RecalculateViewMatrix();
 		}
 		virtual void SetRotation(float rotation, glm::vec3 rotationVector = glm::vec3(0.0f, 0.0f, 1.0f)) {
-			m_Rotation = rotation; 
+			m_RotationSpeed = rotation; 
 			RecalculateViewMatrix();
 		}
 

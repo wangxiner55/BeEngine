@@ -17,6 +17,7 @@
 
 #include "Core/Log/log.h"
 #include "Core/Base/Core.h"
+#include "Core/Base/Timestep.h"
 
 #ifdef BR_PLATFORM_WINDOWS
 	#include <Windows.h>

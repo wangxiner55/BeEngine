@@ -16,7 +16,7 @@ namespace BEngine
 		static void EndScene();
 
 
-		static void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader);
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const glm::mat4& transform = glm::mat4(1));
 
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
@@ -27,6 +27,7 @@ namespace BEngine
 		{
 			glm::mat4 ViewProjectionMatrix;
 			glm::mat4 MVPMatrix;
+			glm::mat4 transform;
 		};
 
 		static SceneData* m_SceneData;
