@@ -6,13 +6,13 @@
 
 namespace BEngine
 {
-
+	class Camera;
 
 	class Render
 	{
 	public:
 
-		static void BeginScene(OrthographicCamera& camera);
+		static void BeginScene(std::shared_ptr<Camera>& camera);
 		static void EndScene();
 
 
@@ -26,6 +26,7 @@ namespace BEngine
 		struct SceneData
 		{
 			glm::mat4 ViewProjectionMatrix;
+			glm::mat4 MVPMatrix;
 		};
 
 		static SceneData* m_SceneData;
