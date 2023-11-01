@@ -12,11 +12,13 @@ namespace BEngine
 	{
 	public:
 
-		static void BeginScene(std::shared_ptr<Camera>& camera);
+		static void Init();
+		static void OnWindowResize(uint32_t width, uint32_t height);
+		static void BeginScene(Ref<Camera>& camera);
 		static void EndScene();
 
 
-		static void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader, const glm::mat4& transform = glm::mat4(1));
+		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform = glm::mat4(1));
 
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }

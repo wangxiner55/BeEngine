@@ -7,12 +7,12 @@
 namespace BEngine
 {
 
-	VertexArray* VertexArray::Create()
+	Ref<VertexArray> VertexArray::Create()
 	{
 		switch (Render::GetAPI())
 		{
 		case RendererAPI::API::None:		BR_CORE_ASSERT(false, "VertexArray Renderer::API::None is not supported!");
-		case RendererAPI::API::OpenGL:		return new OpenGLVertexArray();
+		case RendererAPI::API::OpenGL:		return std::make_shared<OpenGLVertexArray>();
 		case RendererAPI::API::Vulkan:		BR_CORE_ASSERT(false, "VertexArray Renderer::API::Vulkan is not supported!");
 		case RendererAPI::API::DX12:		BR_CORE_ASSERT(false, "VertexArray Renderer::API::DX12 is not supported!");
 		}

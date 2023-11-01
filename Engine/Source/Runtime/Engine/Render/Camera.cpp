@@ -6,7 +6,7 @@
 namespace BEngine
 {
 
-	std::shared_ptr<Camera> BEngine::Camera::Create(CameraType type)
+	Ref<Camera> BEngine::Camera::Create(CameraType type)
 	{
 		switch (type)
 		{

@@ -6,7 +6,9 @@
 #include "Engine/Events/Event.h"
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/MouseEvent.h"
+#include "Engine/Events/ApplicationEvent.h"
 #include "Engine/Input/Input.h"
+
 
 
 
@@ -33,7 +35,7 @@ namespace BEngine
 		Camera(float DeltaT = 0.0f) :m_deltaT(DeltaT) {}
 		virtual ~Camera() {}
 
-		static std::shared_ptr<Camera> Create(CameraType type);
+		static Ref<Camera> Create(CameraType type);
 
 
 		virtual void SetPosition(const glm::vec3& position) = 0;
@@ -50,9 +52,14 @@ namespace BEngine
 		const glm::mat4& GetMVPMatrix() const { return m_MVPMatrix; }
 
 
+
 		virtual void OnEvent(Event& event) = 0;
 		virtual void RecalculateViewMatrix() = 0;
 		virtual void Tick(Timestep ts) { };
+
+
+		virtual float& GetRotationSpeed() { return m_RotationSpeed; }
+		virtual float& GetMovementSpeed() { return m_moveSpeed; }
 
 	protected:
 
@@ -67,7 +74,7 @@ namespace BEngine
 		glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
 		glm::vec3 m_RotationVector = { 0.f, 0.f, 1.0f };
 
-		float m_RotationSpeed = 50.0f;
+		float m_RotationSpeed = 200.0f;
 		float m_moveSpeed = 100.0f;
 		
 		float fov = 45.0f;

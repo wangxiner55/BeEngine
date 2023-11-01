@@ -34,6 +34,8 @@ namespace BEngine
 		m_Window->SetEventCallback(EVENT_BIND(Application::OnEvent));
 		m_Window->SetVSync(false);
 
+		Render::Init();
+
 		m_ImGuiLayer = new ImGuiLayer;
 		PushOverlay(m_ImGuiLayer);
 
@@ -43,16 +45,13 @@ namespace BEngine
 	{
 	}
 
-	bool Application::OnWindowClose(WindowCloseEvent& e)
-	{
-		m_Running = false;
-		return true;
-	}
+
 
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(EVENT_BIND(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(EVENT_BIND(Application::OnWindowResizeEvent));
 		//BR_CORE_INFO("{0}", e);
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
@@ -85,12 +84,16 @@ namespace BEngine
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			for (Layer* layer : m_LayerStack)
+
+			if(!m_Minimized)
 			{
-				layer->OnUpdate(timestep);
+				for (Layer* layer : m_LayerStack)
+				{
+					layer->OnUpdate(timestep);
+				}
+
+
 			}
-
-
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)
 			{
@@ -104,4 +107,30 @@ namespace BEngine
 			
 		}
 	}
+
+
+
+	bool Application::OnWindowClose(WindowCloseEvent& e)
+	{
+		m_Running = false;
+		return true;
+	}
+
+	bool Application::OnWindowResizeEvent(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+
+
+
+		m_Minimized = false;
+		Render::OnWindowResize(e.GetWidth(), e.GetHeight());
+		return false;
+	}
 }
+
+
+

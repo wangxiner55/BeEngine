@@ -11,7 +11,7 @@ add_executable(LaunchApp_Start "Launch/Launch.cpp")
 #附加包含目录
 target_include_directories(LaunchApp_Start PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/spdlog/include)
 target_include_directories(LaunchApp_Start PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glfw/include)
-#target_include_directories(LaunchApp_Start PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/include)
+target_include_directories(LaunchApp_Start PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/include)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glm)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Source/Runtime)
@@ -28,6 +28,7 @@ include_directories(${CMAKE_SOURCE_DIR}/Engine/Source/Runtime)
 #target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/spdlog)
 #target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/glfw/src)
 #target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/imgui)
+target_link_directories(LaunchApp_Start PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/glad)
 #
 ##附加依赖项
 ##target_link_libraries(DllExport PRIVATE legacy_stdio_definitions)
@@ -35,7 +36,7 @@ include_directories(${CMAKE_SOURCE_DIR}/Engine/Source/Runtime)
 #target_link_libraries(DllExport PRIVATE opengl32)
 #target_link_libraries(DllExport PRIVATE glfw3)
 #target_link_libraries(DllExport PRIVATE spdlog)
-
+target_link_libraries(LaunchApp_Start PRIVATE glad)
 
 
 

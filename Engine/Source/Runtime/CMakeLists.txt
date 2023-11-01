@@ -6,16 +6,15 @@ project(Core CXX)
 
 #生成dll库文件
 file(GLOB_RECURSE RSOURCES "./*.cpp" "./*.h")
-#add_library(DllExport SHARED ${RSOURCES})
 add_library(DllExport STATIC ${RSOURCES})
 
 
 #附加包含目录
 target_include_directories(DllExport PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/include)
-target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/src)
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/spdlog/include)
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glfw/include)
+include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/include)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glm)
 

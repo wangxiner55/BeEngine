@@ -34,9 +34,10 @@ namespace BEngine
 	private:
 
 		bool OnKeyPressedEvent(KeyPressedEvent& event);
-
 		bool OnMouseMovementEvent(MouseMovedEvent& event);
+		bool OnWindowResizeEvent(WindowResizeEvent& event);
 		bool OnMouseScrollEvent(MouseScrolledEvent& event);
+
 		void RecalculateViewMatrix();
 
 		void UpdataMVPMatrix();

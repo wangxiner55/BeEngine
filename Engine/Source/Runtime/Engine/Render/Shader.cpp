@@ -1,154 +1,98 @@
 #include "Shader.h"
 
-#include "glad/glad.h"
-#include "glm/gtc/type_ptr.hpp"
+
+#include "RendererAPI.h"
+#include "Render.h"
+#include "Platform/OpenGL/Graphics/OpenGLShader.h"
 
 namespace BEngine
 {
 
-	Shader::Shader(const std::string& vertexSrc, const std::string& fargmentSrc)
+	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fargmentSrc)
 	{
-
-		// Read our shaders into the appropriate buffers
-		//std::string vertexSource = // Get source code for vertex shader.
-		//	std::string fragmentSource = // Get source code for fragment shader.
-
-			// Create an empty vertex shader handle
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-		// Send the vertex shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
-		const GLchar* source = (const GLchar*)vertexSrc.c_str();
-		glShaderSource(vertexShader, 1, &source, 0);
-
-		// Compile the vertex shader
-		glCompileShader(vertexShader);
-
-		GLint isCompiled = 0;
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
+		switch (Render::GetAPI())
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the shader anymore.
-			glDeleteShader(vertexShader);
-
-			// Use the infoLog as you see fit.
-			BR_CORE_ERROR("Vertex shader compilation failure!");
-			BR_CORE_ERROR("{0}", infoLog.data());
-
-
-			// In this simple program, we'll just leave
-			return;
+			case RendererAPI::API::None:		BR_CORE_ASSERT(false, "Shader Renderer::API::None is not supported!");
+			case RendererAPI::API::OpenGL:		return std::make_shared<OpenGLShader>(name, vertexSrc, fargmentSrc);
+			case RendererAPI::API::Vulkan:		BR_CORE_ASSERT(false, "Shader Renderer::API::Vulkan is not supported!");
+			case RendererAPI::API::DX12:		BR_CORE_ASSERT(false, "Shader Renderer::API::DX12 is not supported!");
 		}
 
-		// Create an empty fragment shader handle
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		BR_CORE_ASSERT(false, " Shader Unknown RendererAPI ! ");
+		return nullptr;
+	}
 
-		// Send the fragment shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
-		source = (const GLchar*)fargmentSrc.c_str();
-		glShaderSource(fragmentShader, 1, &source, 0);
-
-		// Compile the fragment shader
-		glCompileShader(fragmentShader);
-
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
+	Ref<Shader> Shader::Create(const std::string& filepath)
+	{
+		switch (Render::GetAPI())
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the shader anymore.
-			glDeleteShader(fragmentShader);
-			// Either of them. Don't leak shaders.
-			glDeleteShader(vertexShader);
-
-			// Use the infoLog as you see fit.
-			BR_CORE_ERROR("Fragment shader compilation failure!");
-			BR_CORE_ERROR("{0}", infoLog.data());
-			// In this simple program, we'll just leave
-			return;
+		case RendererAPI::API::None:		BR_CORE_ASSERT(false, "Shader Renderer::API::None is not supported!");
+		case RendererAPI::API::OpenGL:		return std::make_shared<OpenGLShader>(filepath);
+		case RendererAPI::API::Vulkan:		BR_CORE_ASSERT(false, "Shader Renderer::API::Vulkan is not supported!");
+		case RendererAPI::API::DX12:		BR_CORE_ASSERT(false, "Shader Renderer::API::DX12 is not supported!");
 		}
 
-		// Vertex and fragment shaders are successfully compiled.
-		// Now time to link them together into a program.
-		// Get a program object.
-		m_RendererID = glCreateProgram();
-		GLuint program = m_RendererID;
+		BR_CORE_ASSERT(false, " Shader Unknown RendererAPI ! ");
+		return nullptr;
+	}
 
-		// Attach our shaders to our program
-		glAttachShader(program, vertexShader);
-		glAttachShader(program, fragmentShader);
 
-		// Link our program
-		glLinkProgram(program);
 
-		// Note the different functions here: glGetProgram* instead of glGetShader*.
-		GLint isLinked = 0;
-		glGetProgramiv(program, GL_LINK_STATUS, (int*)&isLinked);
-		if (isLinked == GL_FALSE)
+
+
+	bool ShaderLibrary::Add(const std::string& name, const Ref<Shader>& shader)
+	{
+		if (Exists(name))
 		{
-			GLint maxLength = 0;
-			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the program anymore.
-			glDeleteProgram(program);
-			// Don't leak shaders either.
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-
-			// Use the infoLog as you see fit.
-			BR_CORE_ERROR("Shader link failure!");
-			BR_CORE_ERROR("{0}", infoLog.data());
-
-
-			// In this simple program, we'll just leave
-			return;
+			BR_CORE_ASSERT(false, "Shader already exists!");
+			return false;
 		}
-
-		// Always detach shaders after a successful link.
-		glDetachShader(program, vertexShader);
-		glDetachShader(program, fragmentShader);
+		m_Shaders[name] = shader;
+		return true;
 	}
 
-	Shader::~Shader()
+	bool ShaderLibrary::Add(const Ref<Shader>& shader)
 	{
-		glDeleteProgram(m_RendererID);
+		auto& name = shader->GetName();
+		if (Exists(name))
+		{
+			BR_CORE_ASSERT(false, "Shader already exists!");
+			return false;
+		}
+		m_Shaders[name] = shader;
+		return true;
 	}
 
-	void Shader::Bind() const
+	Ref<Shader> ShaderLibrary::Load(const std::string& filepath)
 	{
-		glUseProgram(m_RendererID);
+		
+		auto shader = Shader::Create(filepath);
+		Add(shader);
+		return shader;
+
+		
 	}
 
-	void Shader::Unbind() const
+	Ref<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
 	{
-		glUseProgram(0);
+		auto shader = Shader::Create(filepath);
+		Add(name, shader);
+		return shader;
 	}
 
-	void Shader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
+	bool ShaderLibrary::Exists(const std::string& name) const
 	{
-		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
-		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+		return m_Shaders.find(name) != m_Shaders.end();
 	}
 
-
-
-
-
+	Ref<Shader> ShaderLibrary::Get(const std::string& name)
+	{
+		if (!Exists(name))
+		{
+			BR_CORE_ASSERT(false, "Shader already exists!");
+			return false;
+		}
+		return m_Shaders[name];
+	}
 
 }

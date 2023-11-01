@@ -30,11 +30,13 @@ namespace BEngine
 		inline static Application& Get() { return *s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnWindowResizeEvent(WindowResizeEvent& e);
 		ImGuiLayer* m_ImGuiLayer;
 
+		bool m_Minimized = false;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-		std::shared_ptr<Window> m_Window;
+		Ref<Window> m_Window;
 
 
 		float m_LastFrameTime = 0.0f;

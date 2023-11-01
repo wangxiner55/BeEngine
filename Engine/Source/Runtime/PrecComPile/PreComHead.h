@@ -19,6 +19,7 @@
 #include "Core/Base/Core.h"
 #include "Core/Base/Timestep.h"
 
+
 #ifdef BR_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif // #ifdef BR_PLATFORM_WINDOWS
