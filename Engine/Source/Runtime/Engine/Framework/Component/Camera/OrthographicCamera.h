@@ -21,7 +21,7 @@ namespace BEngine
 		}
 
 		virtual void OnEvent(Event& event) override;
-
+		virtual Ref<void> GetCurrentCamera() override;
 	private:
 		void RecalculateViewMatrix();
 		bool OnKeyPressedEvent(KeyPressedEvent& event);

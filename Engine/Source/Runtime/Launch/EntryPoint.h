@@ -6,7 +6,7 @@ extern BEngine::Application* BEngine::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	BEngine::Log::Init(); 
+	BEngine::LogSystem::Init(); 
 	BR_CORE_WARN("Initialized Log!");
 	BR_CLIENT_INFO("Hello");
 

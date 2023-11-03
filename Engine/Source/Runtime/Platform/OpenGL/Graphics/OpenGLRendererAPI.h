@@ -1,12 +1,12 @@
 #pragma once
-#include "../../../Engine/Render/RendererAPI.h"
+#include "../../../Engine/Render/RHI.h"
 
 
 
 namespace BEngine
 {
 
-	class OpenGLRendererAPI : public RendererAPI
+	class OpenGLRendererAPI : public RHI
 	{
 	public:
 

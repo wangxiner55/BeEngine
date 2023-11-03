@@ -5,7 +5,6 @@
 #include "../Editor/ImguiLayer.h"
 #include "Engine/Render/Buffer.h"
 #include "Engine/Render/VertexArray.h"
-#include "../Engine/Render/OrthographicCamera.h"
 
 namespace BEngine
 {
@@ -17,7 +16,7 @@ namespace BEngine
 	{
 	public:
 
-		Application();
+		Application(const std::string& name = "Bear");
 		~Application();
 
 		void Run();

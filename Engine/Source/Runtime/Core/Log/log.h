@@ -9,7 +9,7 @@
 namespace BEngine {
 
 
-	class BEAR_API Log
+	class BEAR_API LogSystem
 	{
 	public:
 		static void Init();
@@ -24,15 +24,15 @@ namespace BEngine {
 
 	};
 
-#define BR_CORE_ERROR(...) ::BEngine::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define BR_CORE_WARN(...)  ::BEngine::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define BR_CORE_INFO(...)  ::BEngine::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define BR_CORE_TRACE(...) ::BEngine::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define BR_CORE_FATAL(...) ::BEngine::Log::GetCoreLogger()->fatal(__VA_ARGS__)
+#define BR_CORE_ERROR(...) ::BEngine::LogSystem::GetCoreLogger()->error(__VA_ARGS__)
+#define BR_CORE_WARN(...)  ::BEngine::LogSystem::GetCoreLogger()->warn(__VA_ARGS__)
+#define BR_CORE_INFO(...)  ::BEngine::LogSystem::GetCoreLogger()->info(__VA_ARGS__)
+#define BR_CORE_TRACE(...) ::BEngine::LogSystem::GetCoreLogger()->trace(__VA_ARGS__)
+#define BR_CORE_FATAL(...) ::BEngine::LogSystem::GetCoreLogger()->fatal(__VA_ARGS__)
 
-#define BR_CLIENT_ERROR(...) ::BEngine::Log::GetClientLogger()->error(__VA_ARGS__)
-#define BR_CLIENT_WARN(...)  ::BEngine::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define BR_CLIENT_INFO(...)  ::BEngine::Log::GetClientLogger()->info(__VA_ARGS__)
-#define BR_CLIENT_TRACE(...) ::BEngine::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define BR_CLIENT_FATAL(...) ::BEngine::Log::GetClientLogger()->fatal(__VA_ARGS__)
+#define BR_CLIENT_ERROR(...) ::BEngine::LogSystem::GetClientLogger()->error(__VA_ARGS__)
+#define BR_CLIENT_WARN(...)  ::BEngine::LogSystem::GetClientLogger()->warn(__VA_ARGS__)
+#define BR_CLIENT_INFO(...)  ::BEngine::LogSystem::GetClientLogger()->info(__VA_ARGS__)
+#define BR_CLIENT_TRACE(...) ::BEngine::LogSystem::GetClientLogger()->trace(__VA_ARGS__)
+#define BR_CLIENT_FATAL(...) ::BEngine::LogSystem::GetClientLogger()->fatal(__VA_ARGS__)
 }

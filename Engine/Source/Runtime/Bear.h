@@ -3,7 +3,7 @@
 
 
 #include "../Runtime/Engine/Events/ApplicationEvent.h"
-
+#include "../Runtime/Launch/Application.h"
 
 //Tick
 #include "../Runtime/Core/Base/Timestep.h"
@@ -30,6 +30,8 @@
 #include "../Runtime/Engine/Render/VertexArray.h"
 
 #include "../Runtime/Engine/Render/OrthographicCamera.h"
+
+#include "../Runtime/Engine/Render/FrameBuffer.h"
 
 
 //Entry Point

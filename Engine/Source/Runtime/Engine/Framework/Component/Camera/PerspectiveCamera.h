@@ -29,8 +29,9 @@ namespace BEngine
 		void SetIsFirstMove(bool isMove);
 
 		virtual void Tick(Timestep ts) override;
-
+		virtual Ref<void> GetCurrentCamera() override;
 		virtual void OnEvent(Event& event) override;
+		void UpdataProjectionMatrix(float fov, float width, float height);
 	private:
 
 		bool OnKeyPressedEvent(KeyPressedEvent& event);
@@ -42,7 +43,6 @@ namespace BEngine
 
 		void UpdataMVPMatrix();
 		void UpdataViewMatrix();
-		void UpdataProjectionMatrix(float fov, float width, float height);
 
 		bool isFistMove;
 		bool bChanged;

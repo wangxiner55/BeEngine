@@ -52,7 +52,7 @@ namespace BEngine
 		const glm::mat4& GetMVPMatrix() const { return m_MVPMatrix; }
 
 
-
+		virtual Ref<void> GetCurrentCamera() = 0;
 		virtual void OnEvent(Event& event) = 0;
 		virtual void RecalculateViewMatrix() = 0;
 		virtual void Tick(Timestep ts) { };

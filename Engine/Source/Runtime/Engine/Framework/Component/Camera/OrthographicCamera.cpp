@@ -30,6 +30,10 @@ namespace BEngine
 		dispatcher.Dispatch<KeyPressedEvent>(EVENT_BIND(OrthographicCamera::OnKeyPressedEvent));
 
 	}
+	Ref<void> OrthographicCamera::GetCurrentCamera()
+	{
+		return Ref<void>();
+	}
 	bool OrthographicCamera::OnKeyPressedEvent(KeyPressedEvent& event)
 	{
 		if (event.GetKeyCode() == BR_KEY_LEFT || event.GetKeyCode() == BR_KEY_A)

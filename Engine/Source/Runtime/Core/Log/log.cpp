@@ -2,11 +2,11 @@
 
 
 namespace BEngine {
-	Ref<spdlog::logger> Log::s_CoreLogger;
-	Ref<spdlog::logger> Log::s_ClientLogger;
+	Ref<spdlog::logger> LogSystem::s_CoreLogger;
+	Ref<spdlog::logger> LogSystem::s_ClientLogger;
 
 
-	void Log::Init()
+	void LogSystem::Init()
 	{
 		spdlog::set_pattern("%^[%T] %n: %v%$");
 		s_CoreLogger = spdlog::stdout_color_mt("BEAR");

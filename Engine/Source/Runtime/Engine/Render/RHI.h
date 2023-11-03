@@ -8,7 +8,7 @@
 namespace BEngine
 {
 
-	class RendererAPI
+	class RHI
 	{
 	public:
 

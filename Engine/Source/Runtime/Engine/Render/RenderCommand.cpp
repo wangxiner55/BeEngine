@@ -5,7 +5,7 @@
 namespace BEngine
 {
 
-	RendererAPI* RenderCommand::s_RendererAPI = new OpenGLRendererAPI();
+	RHI* RenderCommand::s_RHI = new OpenGLRendererAPI();
 
 
 

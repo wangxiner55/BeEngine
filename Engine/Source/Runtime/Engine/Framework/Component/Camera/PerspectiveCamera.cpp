@@ -31,6 +31,11 @@ namespace BEngine
 
 	}
 
+	Ref<void> PerspectiveCamera::GetCurrentCamera()
+	{
+		return nullptr;
+	}
+
 	void PerspectiveCamera::OnEvent(Event& event)
 	{
 		EventDispatcher dispatcher(event);
@@ -122,13 +127,15 @@ namespace BEngine
 		lastMousePosition.second = event.GetY();
 
 
-
+		
 
 		return false;
 	}
 
 	bool PerspectiveCamera::OnWindowResizeEvent(WindowResizeEvent& event)
 	{
+		if (event.GetWidth() == 0 || event.GetHeight() == 0) 
+			return false;
 		m_ProjectionMatrix = glm::perspective(glm::radians(fov), (float)event.GetWidth() / (float)event.GetHeight(), 0.1f, 100.0f);
 		return false;
 	}

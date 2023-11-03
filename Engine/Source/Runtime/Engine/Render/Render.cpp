@@ -1,6 +1,6 @@
 #include "Render.h"
 #include "RenderCommand.h"
-#include "Camera.h"
+#include "Engine/Framework/Component/Camera/Camera.h"
 #include "Platform/OpenGL/Graphics/OpenGLShader.h"
 
 namespace BEngine
