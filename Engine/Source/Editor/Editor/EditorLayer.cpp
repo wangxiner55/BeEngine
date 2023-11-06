@@ -14,21 +14,21 @@ namespace BEngine
 	EditorLayer::EditorLayer()
 		:Layer("Editor")
 	{
-        m_VertexArray = BEngine::VertexArray::Create();
+        m_VertexArray = VertexArray::Create();
 
-        BEngine::Ref<BEngine::VertexBuffer> vertexBuffer;
-        BEngine::Ref<BEngine::IndexBuffer> indexBuffer;
+        Ref<VertexBuffer> vertexBuffer;
+        Ref<IndexBuffer> indexBuffer;
 
 
-        vertexBuffer = (BEngine::VertexBuffer::Create(BEngine::boxVertex, sizeof(BEngine::boxVertex)));
-        indexBuffer = (BEngine::IndexBuffer::Create(BEngine::boxIndex, sizeof(BEngine::boxIndex) / sizeof(uint32_t)));
+        vertexBuffer = (VertexBuffer::Create(boxVertex, sizeof(boxVertex)));
+        indexBuffer = (IndexBuffer::Create(boxIndex, sizeof(boxIndex) / sizeof(uint32_t)));
 
         {
-            BEngine::BufferLayout layout =
+            BufferLayout layout =
             {
-                {BEngine::ShaderDataType::Float3, "a_Position"},
-                {BEngine::ShaderDataType::Float4, "a_Color"},
-                {BEngine::ShaderDataType::Float2, "a_UV"}
+                {ShaderDataType::Float3, "a_Position"},
+                {ShaderDataType::Float4, "a_Color"},
+                {ShaderDataType::Float2, "a_UV"}
             };
 
             vertexBuffer->SetLayout(layout);
@@ -41,11 +41,11 @@ namespace BEngine
 
         m_Camera = Camera::Create(CameraType::PerspectiveCamera);
 
-        m_ShaderLibrary = std::make_shared<BEngine::ShaderLibrary>();
+        m_ShaderLibrary = std::make_shared<ShaderLibrary>();
         m_ShaderLibrary->Load(filepath);
-        m_Texture2D = BEngine::Texture2D::Create("D:\\Engine\\BeEngine\\Engine\\Assets\\Textures\\floor_2k.png");
+        m_Texture2D = Texture2D::Create("D:\\Engine\\BeEngine\\Engine\\Assets\\Textures\\floor_2k.png");
         auto Shader = m_ShaderLibrary->Get("Texture");
-        std::dynamic_pointer_cast<BEngine::OpenGLShader>(Shader)->UploadUniformInt("u_Texture", 0);
+        std::dynamic_pointer_cast<OpenGLShader>(Shader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void EditorLayer::OnAttach()
@@ -68,10 +68,10 @@ namespace BEngine
 	{
 		m_Framebuffer->Bind();
 
-		BEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-		BEngine::RenderCommand::Clear();
+		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		RenderCommand::Clear();
 
-		BEngine::Render::BeginScene(m_Camera);
+		Render::BeginScene(m_Camera);
 
 		//
 		m_Camera->Tick(ts);
@@ -82,8 +82,8 @@ namespace BEngine
 		auto Shader = m_ShaderLibrary->Get("Texture");
 		std::dynamic_pointer_cast<OpenGLShader>(Shader)->UploadUniformFloat3("u_Color", m_color);
 
-		BEngine::Render::Submit(m_VertexArray, Shader);
-		BEngine::Render::EndScene();
+		Render::Submit(m_VertexArray, Shader);
+		Render::EndScene();
 		m_Framebuffer->UnBind();
 	}
 
@@ -138,7 +138,7 @@ namespace BEngine
                 ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
                 ImGui::Separator();
 
-                if (ImGui::MenuItem("Exit")) BEngine::Application::Get().Close();
+                if (ImGui::MenuItem("Exit")) Application::Get().Close();
 
                 ImGui::EndMenu();
             }
