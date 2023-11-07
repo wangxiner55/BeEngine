@@ -9,7 +9,7 @@ namespace BEngine
 	class OpenGLVertexBuffer : public VertexBuffer
 	{
 	public:
-		OpenGLVertexBuffer(float* vertices, uint32_t size);
+		OpenGLVertexBuffer(std::vector<Vertex>& vertices, uint32_t size);
 		virtual ~OpenGLVertexBuffer() override;
 
 		virtual void Bind() const override;
@@ -25,7 +25,7 @@ namespace BEngine
 	class OpenGLIndexBuffer : public IndexBuffer
 	{
 	public:
-		OpenGLIndexBuffer(uint32_t* indices, uint32_t count);
+		OpenGLIndexBuffer(std::vector<uint32_t>& indices, uint32_t count);
 		virtual ~OpenGLIndexBuffer() override;
 
 		virtual void Bind() const override;

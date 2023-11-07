@@ -48,9 +48,16 @@ namespace BEngine
 	template<typename T>
 	using Ref = std::shared_ptr<T>;
 
+	template<typename T, typename... Args>
+	auto CRef(Args&&... args) -> std::shared_ptr<T>
+	{
+		return std::make_shared<T>(std::forward<Args>(args)...);
+	}
 
 
+	//using CRef = std::make_shared<T>(Args... args);
 
+#define CRef(x,y) std::make_shared<x>(y)
 
 }
 

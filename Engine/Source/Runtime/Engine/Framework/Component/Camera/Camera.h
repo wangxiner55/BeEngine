@@ -40,6 +40,7 @@ namespace BEngine
 
 		virtual void SetPosition(const glm::vec3& position) = 0;
 		virtual void SetRotation(float rotation, glm::vec3 rotationVector = glm::vec3(0.0f, 0.0f, 1.0f)) = 0;
+		virtual void OnResize(const float& width, const float& height) = 0;
 
 		virtual const glm::vec3& GetPosition() { return m_Position; }
 		virtual const float& GetRotation() { return m_RotationSpeed; }

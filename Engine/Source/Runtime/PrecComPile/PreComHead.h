@@ -23,5 +23,6 @@
 #include "Engine/Resource/AssetData/BaseData.h"
 
 #ifdef BR_PLATFORM_WINDOWS
+	#define NOMINMAX
 	#include <Windows.h>
 #endif // #ifdef BR_PLATFORM_WINDOWS

@@ -21,6 +21,12 @@ namespace BEngine
 		isFistMove = isMove;
 	}
 
+	void PerspectiveCamera::OnResize(const float& width, const float& height)
+	{
+		fov = width / height;
+		m_ProjectionMatrix = glm::perspective(glm::radians(fov), (float)800 / (float)600, 0.1f, 100.0f);
+	}
+
 	void PerspectiveCamera::Tick(Timestep ts)
 	{
 		Camera::Tick(ts);

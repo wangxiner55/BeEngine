@@ -10,11 +10,11 @@ namespace BEngine
 	{
 		switch (type)
 		{
-		case BEngine::CameraType::OrthographicCamera: return std::make_shared<OrthographicCamera>();
+		case BEngine::CameraType::OrthographicCamera: return CRef<OrthographicCamera>();
 
-		case BEngine::CameraType::PerspectiveCamera: return std::make_shared<PerspectiveCamera>();
+		case BEngine::CameraType::PerspectiveCamera: return CRef<PerspectiveCamera>();
 
-		default: return std::make_shared<PerspectiveCamera>();
+		default: return CRef<PerspectiveCamera>();
 
 		}
 

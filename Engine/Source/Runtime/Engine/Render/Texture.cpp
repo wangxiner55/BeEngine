@@ -10,7 +10,7 @@ namespace BEngine
 		switch (Render::GetAPI())
 		{
 			case RHI::API::None:		BR_CORE_ASSERT(false, "Texture2D Renderer::API::None is not supported!");
-			case RHI::API::OpenGL:		return std::make_shared<OpenGLTexture2D>(path);
+			case RHI::API::OpenGL:		return CRef<OpenGLTexture2D>(path);
 			case RHI::API::Vulkan:		BR_CORE_ASSERT(false, "Texture2D Renderer::API::Vulkan is not supported!");
 			case RHI::API::DX12:		BR_CORE_ASSERT(false, "Texture2D Renderer::API::DX12 is not supported!");
 		}

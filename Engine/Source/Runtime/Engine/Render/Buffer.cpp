@@ -9,12 +9,12 @@ namespace BEngine
 
 
 
-	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(std::vector<Vertex>& vertices, uint32_t size)
 	{
 		switch (Render::GetAPI())
 		{
 		case RHI::API::None:		BR_CORE_ASSERT(false, "VertexBuffer Renderer::API::None is not supported!");
-		case RHI::API::OpenGL:		return std::make_shared<OpenGLVertexBuffer>(vertices, size);
+		case RHI::API::OpenGL:		return CRef<OpenGLVertexBuffer>(vertices, size);
 		case RHI::API::Vulkan:		BR_CORE_ASSERT(false, "VertexBuffer Renderer::API::Vulkan is not supported!");
 		case RHI::API::DX12:		BR_CORE_ASSERT(false, "VertexBuffer Renderer::API::DX12 is not supported!");
 		}
@@ -23,12 +23,12 @@ namespace BEngine
 		return nullptr;
 	}
 
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size)
+	Ref<IndexBuffer> IndexBuffer::Create(std::vector<uint32_t>& indices, uint32_t size)
 	{
 		switch (Render::GetAPI())
 		{
 		case RHI::API::None:		BR_CORE_ASSERT(false, "IndexBuffer Renderer::API::None is not supported!");
-		case RHI::API::OpenGL:		return std::make_shared<OpenGLIndexBuffer>(indices, size);
+		case RHI::API::OpenGL:		return CRef<OpenGLIndexBuffer>(indices, size);
 		case RHI::API::Vulkan:		BR_CORE_ASSERT(false, "IndexBuffer Renderer::API::Vulkan is not supported!");
 		case RHI::API::DX12:		BR_CORE_ASSERT(false, "IndexBuffer Renderer::API::DX12 is not supported!");
 		}

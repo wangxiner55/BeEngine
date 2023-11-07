@@ -13,7 +13,7 @@ namespace BEngine
 		switch (Render::GetAPI())
 		{
 			case RHI::API::None:		BR_CORE_ASSERT(false, "Shader Renderer::API::None is not supported!");
-			case RHI::API::OpenGL:		return std::make_shared<OpenGLShader>(name, vertexSrc, fargmentSrc);
+			case RHI::API::OpenGL:		return CRef<OpenGLShader>(name, vertexSrc, fargmentSrc);
 			case RHI::API::Vulkan:		BR_CORE_ASSERT(false, "Shader Renderer::API::Vulkan is not supported!");
 			case RHI::API::DX12:		BR_CORE_ASSERT(false, "Shader Renderer::API::DX12 is not supported!");
 		}
@@ -27,7 +27,7 @@ namespace BEngine
 		switch (Render::GetAPI())
 		{
 		case RHI::API::None:		BR_CORE_ASSERT(false, "Shader Renderer::API::None is not supported!");
-		case RHI::API::OpenGL:		return std::make_shared<OpenGLShader>(filepath);
+		case RHI::API::OpenGL:		return CRef<OpenGLShader>(filepath);
 		case RHI::API::Vulkan:		BR_CORE_ASSERT(false, "Shader Renderer::API::Vulkan is not supported!");
 		case RHI::API::DX12:		BR_CORE_ASSERT(false, "Shader Renderer::API::DX12 is not supported!");
 		}

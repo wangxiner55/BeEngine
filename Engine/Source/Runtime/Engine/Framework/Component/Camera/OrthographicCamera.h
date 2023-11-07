@@ -11,6 +11,9 @@ namespace BEngine
 
 		OrthographicCamera(float left, float right, float bottom, float top);
 
+
+
+		virtual void OnResize(const float& width, const float& height) override;
 		virtual void SetPosition(const glm::vec3& position) {
 			m_Position = position; 
 			RecalculateViewMatrix();

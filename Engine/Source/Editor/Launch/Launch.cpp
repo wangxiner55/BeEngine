@@ -45,7 +45,7 @@ public:
 
 
 
-		m_ShaderLibrary = std::make_shared<BEngine::ShaderLibrary>();
+		m_ShaderLibrary = CRef<BEngine::ShaderLibrary>();
 		m_ShaderLibrary->Load(filepath);
 		m_Texture2D = BEngine::Texture2D::Create("D:\\Engine\\BeEngine\\Engine\\Assets\\Textures\\floor_2k.png");
 		auto Shader = m_ShaderLibrary->Get("Texture");

@@ -1,8 +1,9 @@
 
 #include "EditorLayer.h"
-#include <Launch/Application.h>
-#include <Launch/EntryPoint.h>
 
+
+
+#include <Launch/EntryPoint.h>
 
 
 

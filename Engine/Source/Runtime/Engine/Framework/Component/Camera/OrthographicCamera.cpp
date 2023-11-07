@@ -14,6 +14,10 @@ namespace BEngine
 		m_MVPMatrix = m_MVMatrix;
 	}
 
+	void OrthographicCamera::OnResize(const float& width, const float& height)
+	{
+	}
+
 	void OrthographicCamera::RecalculateViewMatrix()
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0), m_Position);

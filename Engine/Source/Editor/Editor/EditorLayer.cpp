@@ -1,12 +1,18 @@
 #include "EditorLayer.h"
+
+
+
 #include <Engine/Render/RenderCommand.h>
 #include <Engine/Render/Render.h>
+#include <Platform/OpenGL/Graphics/OpenGLShader.h>
+
 #include <imgui.h>
-#include <Launch/Application.h>
+
+#include <Engine/Framework/Component/Component/Component.h>
 #include <Engine/Geo/Geo.h>
+
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <Platform/OpenGL/Graphics/OpenGLShader.h>
 
 namespace BEngine
 {
@@ -20,15 +26,19 @@ namespace BEngine
         Ref<IndexBuffer> indexBuffer;
 
 
-        vertexBuffer = (VertexBuffer::Create(boxVertex, sizeof(boxVertex)));
-        indexBuffer = (IndexBuffer::Create(boxIndex, sizeof(boxIndex) / sizeof(uint32_t)));
+        vertexBuffer = (VertexBuffer::Create(boxVertex, boxVertex.size()*sizeof(Vertex)));
+        indexBuffer = (IndexBuffer::Create(boxIndex, boxIndex.size()));
 
         {
             BufferLayout layout =
             {
                 {ShaderDataType::Float3, "a_Position"},
-                {ShaderDataType::Float4, "a_Color"},
-                {ShaderDataType::Float2, "a_UV"}
+                {ShaderDataType::Float3, "a_Normal"},
+                {ShaderDataType::Float2, "a_UV"},
+                {ShaderDataType::Float3, "a_Tangent"},
+                {ShaderDataType::Float3, "a_Bitangent"},
+                {ShaderDataType::Int4,   "a_BoneID"},
+                {ShaderDataType::Float4, "a_Weight"}
             };
 
             vertexBuffer->SetLayout(layout);
@@ -41,7 +51,7 @@ namespace BEngine
 
         m_Camera = Camera::Create(CameraType::PerspectiveCamera);
 
-        m_ShaderLibrary = std::make_shared<ShaderLibrary>();
+        m_ShaderLibrary = CRef<ShaderLibrary>();
         m_ShaderLibrary->Load(filepath);
         m_Texture2D = Texture2D::Create("D:\\Engine\\BeEngine\\Engine\\Assets\\Textures\\floor_2k.png");
         auto Shader = m_ShaderLibrary->Get("Texture");
@@ -57,6 +67,11 @@ namespace BEngine
 		spec.height = 720;
 		m_Framebuffer = Framebuffer::Create(spec);
         m_Camera->SetPosition({ 0,0,-5 });
+;
+        m_ActiveScene = CRef<Scene>();
+        auto cube = m_ActiveScene->CreateEntity();
+        m_ActiveScene->Reg().emplace<TransformComponent>(cube);
+        m_ActiveScene->Reg().emplace<CubeTransformComponent>(cube, glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
 	}
 
 	void EditorLayer::OnDetach()
@@ -66,25 +81,34 @@ namespace BEngine
 
 	void EditorLayer::OnUpdate(Timestep ts)
 	{
-		m_Framebuffer->Bind();
 
-		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-		RenderCommand::Clear();
-
-		Render::BeginScene(m_Camera);
-
-		//
-		m_Camera->Tick(ts);
-		m_Texture2D->Bind();
+        //update scene
 
 
+        
+        m_Framebuffer->Bind();
+        RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+        RenderCommand::Clear();
+        
 
-		auto Shader = m_ShaderLibrary->Get("Texture");
-		std::dynamic_pointer_cast<OpenGLShader>(Shader)->UploadUniformFloat3("u_Color", m_color);
+        m_ActiveScene->Tick(ts);
 
-		Render::Submit(m_VertexArray, Shader);
-		Render::EndScene();
-		m_Framebuffer->UnBind();
+
+        Render::BeginScene(m_Camera);
+
+        //
+        m_Camera->Tick(ts);
+
+        m_Texture2D->Bind();
+        auto Shader = m_ShaderLibrary->Get("Texture");
+        std::dynamic_pointer_cast<OpenGLShader>(Shader)->UploadUniformFloat3("u_Color", m_color);
+
+        Render::Submit(m_VertexArray, Shader);
+        Render::EndScene();
+        m_Framebuffer->UnBind();
+
+
+
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -161,6 +185,7 @@ namespace BEngine
             m_Framebuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
             m_ViewportSize = { viewportPanelSize.x,viewportPanelSize.y };
 
+            //m_Camera->
             //m_Camera
         }
         uint32_t textureID = m_Texture2D->GetRenderID();
