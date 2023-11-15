@@ -1,5 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "Engine/Render/Shader.h"
+
 
 namespace BEngine
 {
@@ -18,7 +20,7 @@ namespace BEngine
 	public:
 
 
-		void Draw();
+		void Draw(const Ref<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f));
 
 		void SetUpMesh();
 	private:

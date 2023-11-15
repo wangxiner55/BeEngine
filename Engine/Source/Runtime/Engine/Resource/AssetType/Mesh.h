@@ -13,8 +13,8 @@ namespace BEngine
 
 
 	private:
-		Ref<MeshData> m_MeshData;
-		Ref<Material> m_Material;
+		//Ref<MeshData> m_MeshData;
+		//Ref<Material> m_Material;
 
 	};
 

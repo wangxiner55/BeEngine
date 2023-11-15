@@ -14,6 +14,9 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+
+
+#include <Engine/Function/LoadModel/TLoad.h>
 namespace BEngine
 {
 
@@ -61,7 +64,7 @@ namespace BEngine
 	void EditorLayer::OnAttach()
 	{
 
-
+        TLoad("D:/Engine/Geo/Box.obj");
 		FramebufferSpecification spec;
 		spec.width = 1280;
 		spec.height = 720;

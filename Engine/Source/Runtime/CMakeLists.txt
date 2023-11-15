@@ -15,6 +15,7 @@ target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/spdlog/include)
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glfw/include)
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime/ThirdParty/Entt/include)
+target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime/ThirdParty/TinyObjLoader/include)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/include)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glm)
