@@ -16,12 +16,15 @@ target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glfw/include)
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime/ThirdParty/Entt/include)
 target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime/ThirdParty/TinyObjLoader/include)
+target_include_directories(DllExport PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime/ThirdParty/assimp/include)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/include)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glm)
 
 
 #¸½¼Ó¿âÄ¿Â¼
+target_link_directories(DllExport PUBLIC ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime/ThirdParty/assimp/lib)
+
 target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/spdlog)
 target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/glfw/src)
 target_link_directories(DllExport PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/imgui)
@@ -34,6 +37,8 @@ target_link_libraries(DllExport PRIVATE opengl32)
 target_link_libraries(DllExport PRIVATE glfw3)
 target_link_libraries(DllExport PRIVATE spdlog)
 target_link_libraries(DllExport PRIVATE glad)
+target_link_libraries(DllExport PRIVATE assimp-vc143-mt)
+
 
 #target_link_options(DllExport PRIVATE /NODEFAULTLIB:MSVCRT.lib)
 

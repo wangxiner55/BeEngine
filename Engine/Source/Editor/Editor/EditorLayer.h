@@ -11,11 +11,12 @@
 #include <Engine/Layer/Layer.h>
 #include <Engine/Render/Texture.h>
 #include <Engine/Framework/Component/Scene/Scene.h>
-
+#include <Engine/Resource/AssetData/Model.h>
 
 
 namespace BEngine
 {
+	class AssimpLoad;
 	class  EditorLayer : public Layer
 	{
 	public:
@@ -30,7 +31,7 @@ namespace BEngine
 
 	private:
 		Ref<VertexArray> m_VertexArray;
-		Ref<Texture2D> m_Texture2D;
+		//Ref<Texture2D> m_Texture2D;
 		Ref<Framebuffer> m_Framebuffer;
 
 		Ref<ShaderLibrary> m_ShaderLibrary;
@@ -38,6 +39,8 @@ namespace BEngine
 		Ref<Scene> m_ActiveScene;
 		Ref<Camera> m_Camera;
 
+		Ref<AssimpLoad> m_AssimpLoad;
+		Ref<Model> model;
 
 
 		glm::vec3 m_CameraPosition = glm::vec3(0.0, 0.0, 3.0);

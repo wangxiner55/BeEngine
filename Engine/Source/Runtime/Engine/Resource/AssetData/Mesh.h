@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "Engine/Render/Shader.h"
-
+#include "../../Render/Texture.h"
 
 namespace BEngine
 {
@@ -14,11 +14,11 @@ namespace BEngine
 
 	class Mesh
 	{
-		Mesh(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, std::vector<TextureDT>& textures);
-		~Mesh();
-
 	public:
 
+
+		Mesh(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, std::vector<Ref<Texture2D>>& textures);
+		~Mesh();
 
 		void Draw(const Ref<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f));
 
@@ -29,14 +29,9 @@ namespace BEngine
 		Ref<VertexBuffer>			 m_vertexBuffer;
 		Ref<IndexBuffer>			 m_indexBuffer;
 
-
 		std::vector<Vertex>          m_Vertices;
 		std::vector<uint32_t>		 m_Indices;
-		std::vector<TextureDT>		 m_Textures;
-
-
-
-
+		std::vector<Ref<Texture2D>>	 m_Texture2DS;
 	};
 
 

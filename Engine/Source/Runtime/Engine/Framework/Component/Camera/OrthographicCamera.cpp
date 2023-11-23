@@ -14,13 +14,22 @@ namespace BEngine
 		m_MVPMatrix = m_MVMatrix;
 	}
 
-	void OrthographicCamera::OnResize(const float& width, const float& height)
+	void OrthographicCamera::UpdateModelMatrix()
 	{
 	}
 
+	void OrthographicCamera::UpdateViewMatrix()
+	{
+	}
+
+	void OrthographicCamera::UpdateProjectMatrix()
+	{
+	}
+
+
 	void OrthographicCamera::RecalculateViewMatrix()
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0), m_Position);
+		glm::mat4 transform = glm::translate(glm::mat4(1.0), m_CameraPosition);
 		transform *= glm::rotate(glm::mat4(1.0f), glm::radians(m_RotationSpeed), glm::vec3(0, 0, 1));
 
 		m_ViewMatrix = (transform);
@@ -42,19 +51,19 @@ namespace BEngine
 	{
 		if (event.GetKeyCode() == BR_KEY_LEFT || event.GetKeyCode() == BR_KEY_A)
 		{
-			m_Position.x -= m_moveSpeed;
+			m_CameraPosition.x -= m_moveSpeed;
 		}
 		if (event.GetKeyCode() == BR_KEY_RIGHT || event.GetKeyCode() == BR_KEY_D)
 		{
-			m_Position.x += m_moveSpeed;
+			m_CameraPosition.x += m_moveSpeed;
 		}
 		if (event.GetKeyCode() == BR_KEY_DOWN || event.GetKeyCode() == BR_KEY_S)
 		{
-			m_Position.y -= m_moveSpeed;
+			m_CameraPosition.y -= m_moveSpeed;
 		}
 		if (event.GetKeyCode() == BR_KEY_UP || event.GetKeyCode() == BR_KEY_W)
 		{
-			m_Position.y += m_moveSpeed;
+			m_CameraPosition.y += m_moveSpeed;
 		}
 		return false;
 	}

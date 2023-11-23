@@ -20,7 +20,7 @@ namespace BEngine
 
 	void Render::BeginScene(Ref<Camera>& camera)
 	{
-		m_SceneData->ViewProjectionMatrix = camera->GetMVPMatrix();
+		m_SceneData->ViewProjectionMatrix = camera->GetVPMatrix();
 		m_SceneData->MVPMatrix = camera->GetMVPMatrix();
 	}
 
@@ -31,7 +31,7 @@ namespace BEngine
 	void Render::Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform )
 	{
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", m_SceneData->MVPMatrix);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform);
 		vertexArray->Bind();
 		RenderCommand::DrawIndex(vertexArray);

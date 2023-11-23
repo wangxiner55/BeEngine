@@ -19,11 +19,11 @@ namespace BEngine
 	void TLoad::LoadModel(std::string path)
 	{
 
-		std::size_t pos = path.find_last_of("/\\"); // 找到最后一个/或\的位置
-		std::string sfilename = path; // 提取出文件名
-		std::string sbasepath = path.substr(0, pos + 1); // 提取出基本路径
-		filename = sfilename.c_str(); // 将文件名转为const char*
-		basepath = sbasepath.c_str(); // 将基本路径转为const char*
+		std::size_t pos = path.find_last_of("/\\"); 
+		std::string sfilename = path; 
+		std::string sbasepath = path.substr(0, pos + 1); 
+		filename = sfilename.c_str(); 
+		basepath = sbasepath.c_str(); 
 
 
 		bool b_read = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, filename, basepath, triangulate);

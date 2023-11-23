@@ -12,7 +12,7 @@ BEngine::OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 	stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 	
 	BR_CORE_ASSERT(data, "Failed to load image!");
-	if (!data) std::cout << "sssss" << std::endl;
+	if (!data) std::cout << "Failed to load image!" << std::endl;
 	m_Width = width;
 	m_Height = height;
 

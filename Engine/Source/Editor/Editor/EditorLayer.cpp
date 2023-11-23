@@ -17,6 +17,8 @@
 
 
 #include <Engine/Function/LoadModel/TLoad.h>
+#include <Engine/Function/LoadModel/AssimpLoad.h>
+
 namespace BEngine
 {
 
@@ -56,15 +58,15 @@ namespace BEngine
 
         m_ShaderLibrary = CRef<ShaderLibrary>();
         m_ShaderLibrary->Load(filepath);
-        m_Texture2D = Texture2D::Create("D:\\Engine\\BeEngine\\Engine\\Assets\\Textures\\floor_2k.png");
-        auto Shader = m_ShaderLibrary->Get("Texture");
-        std::dynamic_pointer_cast<OpenGLShader>(Shader)->UploadUniformInt("u_Texture", 0);
+
 	}
 
 	void EditorLayer::OnAttach()
 	{
 
-        TLoad("D:/Engine/Geo/Box.obj");
+        std::string loadpath = "D:/Engine/Geo/Example/nanosuit.obj";
+        model = CRef<Model>(loadpath);
+
 		FramebufferSpecification spec;
 		spec.width = 1280;
 		spec.height = 720;
@@ -86,8 +88,7 @@ namespace BEngine
 	{
 
         //update scene
-
-
+        
         
         m_Framebuffer->Bind();
         RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
@@ -102,11 +103,13 @@ namespace BEngine
         //
         m_Camera->Tick(ts);
 
-        m_Texture2D->Bind();
+
+        //m_Texture2D->Bind();
         auto Shader = m_ShaderLibrary->Get("Texture");
+        model->Draw(Shader);
         std::dynamic_pointer_cast<OpenGLShader>(Shader)->UploadUniformFloat3("u_Color", m_color);
 
-        Render::Submit(m_VertexArray, Shader);
+        //Render::Submit(m_VertexArray, Shader);
         Render::EndScene();
         m_Framebuffer->UnBind();
 
@@ -177,7 +180,7 @@ namespace BEngine
         ImGui::Begin("Settings");
         ImGui::ColorEdit3("Square Color", glm::value_ptr(m_color));
         ImGui::SliderFloat("Rotate Speed", &m_Camera->GetRotationSpeed(), 0.0f, 200.0f, "%.0f");
-        ImGui::SliderFloat("Move Speed", &m_Camera->GetMovementSpeed(), 0.0f, 200.0f, "%.0f");
+        ImGui::SliderFloat("Move Speed", &m_Camera->GetMovementSpeed(), 0.0f, 400.0f, "%.0f");
         ImGui::End();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
@@ -191,7 +194,7 @@ namespace BEngine
             //m_Camera->
             //m_Camera
         }
-        uint32_t textureID = m_Texture2D->GetRenderID();
+        //uint32_t textureID = m_Texture2D->GetRenderID();
         uint32_t RenderID = m_Framebuffer->GetColorAttachmentRendererId();
         ImGui::Image((void*)RenderID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 1, 0 }, ImVec2{ 0, 1 });
         ImGui::End();

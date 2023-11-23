@@ -40,9 +40,9 @@ namespace BEngine
 
 		virtual void SetPosition(const glm::vec3& position) = 0;
 		virtual void SetRotation(float rotation, glm::vec3 rotationVector = glm::vec3(0.0f, 0.0f, 1.0f)) = 0;
-		virtual void OnResize(const float& width, const float& height) = 0;
+		//virtual void OnResize(const float& width, const float& height) = 0;
 
-		virtual const glm::vec3& GetPosition() { return m_Position; }
+		virtual const glm::vec3& GetPosition() { return m_CameraPosition; }
 		virtual const float& GetRotation() { return m_RotationSpeed; }
 
 		const glm::mat4& GetModelMatrix() const { return m_ModelMatrix; }
@@ -50,12 +50,17 @@ namespace BEngine
 		const glm::mat4& GetProjectMatrix() const { return m_ProjectionMatrix; }
 
 		const glm::mat4& GetMVMatrix() const { return m_MVMatrix; }
+		const glm::mat4& GetVPMatrix() const { return m_VPMatrix; }
 		const glm::mat4& GetMVPMatrix() const { return m_MVPMatrix; }
+
+		virtual void UpdateModelMatrix() = 0;
+		virtual void UpdateViewMatrix() = 0;
+		virtual void UpdateProjectMatrix() = 0;
+
 
 
 		virtual Ref<void> GetCurrentCamera() = 0;
 		virtual void OnEvent(Event& event) = 0;
-		virtual void RecalculateViewMatrix() = 0;
 		virtual void Tick(Timestep ts) { };
 
 
@@ -70,15 +75,32 @@ namespace BEngine
 
 		glm::mat4 m_MVMatrix = glm::mat4(1.0f);
 		glm::mat4 m_MVPMatrix = glm::mat4(1.0f);
+		glm::mat4 m_VPMatrix = glm::mat4(1.0f);
 
-		glm::vec3 m_Scale = { 1.f, 1.f, 1.0f };
-		glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 m_RotationVector = { 0.f, 0.f, 1.0f };
+
+		glm::vec3 m_CameraRotationVector = { 0.f, 0.f, 1.0f };
+		glm::vec3 m_CameraPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 m_CameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
+		glm::vec3 m_CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+		glm::vec3 m_CameraRight = glm::vec3(1.0f, 0.0f, 0.0f);
+		glm::vec3 m_WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+		float m_fov = 45.0;
+		float m_width = 1280.0;
+		float m_height = 720.0;
+		float m_Z_near = 0.1;
+		float m_Z_far = 100.0;
+		float m_aspect = 1280.0 / 720.0;
+
+		float m_yaw = -90.0f;
+		float m_pitch = 0.0f;
+		float m_movespeed = 2.5f;
+		float m_sensitity = 0.1f;
+
 
 		float m_RotationSpeed = 200.0f;
 		float m_moveSpeed = 100.0f;
 		
-		float fov = 45.0f;
 		float m_deltaT = 0.0f;
 
 

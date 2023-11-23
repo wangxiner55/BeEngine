@@ -15,6 +15,7 @@ add_executable(BearEditor ${RSOURCES})
 #target_include_directories(LaunchApp_Start PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glfw/include)
 #target_include_directories(LaunchApp_Start PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glad/include)
 target_include_directories(BearEditor PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime/ThirdParty/TinyObjLoader/include)
+target_include_directories(BearEditor PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime/ThirdParty/assimp/include)
 target_include_directories(BearEditor PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime/ThirdParty/Entt/include)
 target_include_directories(BearEditor PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/spdlog/include)
 target_include_directories(BearEditor PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binaries/ThirdParty/glfw/include)
@@ -24,6 +25,8 @@ target_include_directories(BearEditor PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Binarie
 target_include_directories(BearEditor PRIVATE ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime)
 
 
+
+target_link_directories(BearEditor PUBLIC ${CMAKE_SOURCE_DIR}/Engine/Source/Runtime/ThirdParty/assimp/lib)
 target_link_directories(BearEditor PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/spdlog)
 target_link_directories(BearEditor PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/glfw/src)
 target_link_directories(BearEditor PRIVATE ${CMAKE_BINARY_DIR}/Engine/Binaries/ThirdParty/imgui)
@@ -32,6 +35,7 @@ target_link_directories(BearEditor PRIVATE ${CMAKE_BINARY_DIR}/Engine/Source/Run
 
 
 
+target_link_libraries(BearEditor PRIVATE assimp-vc143-mt)
 target_link_libraries(BearEditor PRIVATE DllExport)
 target_link_libraries(BearEditor PRIVATE opengl32)
 target_link_libraries(BearEditor PRIVATE spdlog)
