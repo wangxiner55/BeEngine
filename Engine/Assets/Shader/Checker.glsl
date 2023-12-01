@@ -23,7 +23,7 @@ void main()
    v_Position = aPos;
    UV = aUV;
    v_Color =  u_Color;
-   gl_Position = u_ViewProjection * vec4(aPos, 1.0);
+   gl_Position = u_ViewProjection * vec4(aPos * 5.0, 1.0);
 };
 
 
@@ -43,9 +43,24 @@ in vec3 v_Color;
 in vec2 UV;
 
 
+float caculateEdge(float value, float edge, vec2 uv, float num)
+{
+    vec2 newUV = uv * num;
+	vec2 fracUV = fract(newUV);
+	vec2 gedge = smoothstep(value,edge+value,(1.0 - abs(1.0 - fracUV * 2.0))*0.5);
+	float edges = max(gedge.x,gedge.y);
+    return edges;
+}
+
+
 void main()
 {
 	vec3 pos = v_Position;
+
+   float BigEdge = caculateEdge(0.48,0.4,UV,10);
+   float SmallEdge = caculateEdge(0.48,0.4,UV,100);
+   float FinalAlpha = BigEdge + SmallEdge*0.5;
+
 	vec4 color = texture(diffuse, UV);
-	FragColor = vec4(color.rgb, 1.0);
+	FragColor = vec4(vec3(1) ,FinalAlpha*10.0);
 };

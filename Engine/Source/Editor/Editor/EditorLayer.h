@@ -34,13 +34,14 @@ namespace BEngine
 		//Ref<Texture2D> m_Texture2D;
 		Ref<Framebuffer> m_Framebuffer;
 
-		Ref<ShaderLibrary> m_ShaderLibrary;
 
+		Entity m_Entity;
 		Ref<Scene> m_ActiveScene;
 		Ref<Camera> m_Camera;
 
 		Ref<AssimpLoad> m_AssimpLoad;
 		Ref<Model> model;
+		Ref<Model> Checkmodel;
 
 
 		glm::vec3 m_CameraPosition = glm::vec3(0.0, 0.0, 3.0);

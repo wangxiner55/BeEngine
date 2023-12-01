@@ -26,7 +26,6 @@ namespace BEngine
 		UpdateProjection(m_fov, m_aspect);
 		UpdateView();
 		UpdateVPMatrix();
-
 	}
 
 	void PerspectiveCamera::UpdateProjection(float m_fov, float width, float height, float Z_near, float Z_far)
@@ -36,7 +35,7 @@ namespace BEngine
 		m_height = height;
 		m_Z_near = Z_near;
 		m_Z_far = Z_far;
-		m_ProjectionMatrix = glm::perspective(m_fov, width / height, Z_near, Z_far);
+		m_ProjectionMatrix = glm::perspective(glm::radians((m_fov)), width / height, Z_near, Z_far);
 	}
 
 	void PerspectiveCamera::UpdateProjection(float m_fov, float aspect, float Z_near, float Z_far)
@@ -45,7 +44,12 @@ namespace BEngine
 		m_aspect = aspect;
 		m_Z_near = Z_near;
 		m_Z_far = Z_far;
-		m_ProjectionMatrix = glm::perspective(m_fov, aspect, Z_near, Z_far);
+		m_ProjectionMatrix = glm::perspective(glm::radians(m_fov), aspect, Z_near, Z_far);
+	}
+
+	void PerspectiveCamera::ResetProjection(float aspect)
+	{
+		UpdateProjection(m_fov, aspect);
 	}
 
 	void PerspectiveCamera::UpdateView()
@@ -62,6 +66,30 @@ namespace BEngine
 	void PerspectiveCamera::SetModel()
 	{
 
+	}
+
+	void PerspectiveCamera::RotationAroundPoint(glm::vec3 rotatepoint, float angle, glm::vec3 rotatorvector)
+	{
+		glm::mat4 trans = glm::mat4(1);
+		glm::mat4 InvertTrans = glm::mat4(1);
+
+		if (rotatepoint != glm::vec3(0))
+		{
+			glm::mat4 trans = glm::translate(glm::mat4(1), -rotatepoint);
+			glm::mat4 InvertTrans = glm::translate(glm::mat4(1), rotatepoint);
+
+		}
+		glm::mat4 rot = glm::rotate(glm::mat4(1), angle, rotatorvector);
+
+		glm::vec4 pos = InvertTrans * rot * trans * glm::vec4(m_CameraPosition, 1.0);
+		m_CameraPosition = glm::vec3(pos.x,pos.y,pos.z);
+		m_CameraFront = glm::normalize(-m_CameraPosition);
+
+		m_CameraRight = glm::normalize(glm::cross(m_CameraFront, m_WorldUp));
+		m_CameraUp = glm::normalize(glm::cross(m_CameraRight, m_CameraFront));
+
+		//m_yaw = glm::dot(m_CameraFront, glm::vec3(1., 0., 0.0));
+		//m_pitch = glm::dot(m_CameraUp, glm::vec3(0., 1., 0.0));
 	}
 
 	void PerspectiveCamera::UpdateModelMatrix()
@@ -111,19 +139,19 @@ namespace BEngine
 		}
 		if (event.GetKeyCode() == BR_KEY_DOWN || Input::IsKeyPressed(BR_KEY_S))
 		{
-			m_CameraPosition += m_CameraFront * m_moveSpeed * m_deltaT;
+			m_CameraPosition -= m_CameraFront * m_moveSpeed * m_deltaT;
 		}
 		if (event.GetKeyCode() == BR_KEY_UP || Input::IsKeyPressed(BR_KEY_W))
 		{
-			m_CameraPosition -= m_CameraFront * m_moveSpeed * m_deltaT;
+			m_CameraPosition += m_CameraFront * m_moveSpeed * m_deltaT;
 		}
 		if (Input::IsKeyPressed(BR_KEY_Q))
 		{
-			m_CameraPosition += m_CameraUp * m_moveSpeed * m_deltaT;
+			m_CameraPosition -= m_CameraUp * m_moveSpeed * m_deltaT;
 		}
 		if (Input::IsKeyPressed(BR_KEY_E))
 		{
-			m_CameraPosition -= m_CameraUp * m_moveSpeed * m_deltaT;
+			m_CameraPosition += m_CameraUp * m_moveSpeed * m_deltaT;
 		}
 		return false;
 	}
@@ -137,12 +165,28 @@ namespace BEngine
 			m_yaw += doffsetX * m_deltaT * m_RotationSpeed;
 			m_pitch += doffsetY * m_deltaT * m_RotationSpeed;
 
-			if (m_pitch > 89.0f)
+			/*if (m_pitch > 89.0f)
 				m_pitch = 89.0f;
 			if (m_pitch < -89.0f)
-				m_pitch = -89.0f;
+				m_pitch = -89.0f;*/
 
 			updateCameraVectors();
+		}
+
+		if (Input::IsMouseButtonPressed(BR_MOUSE_BUTTON_LEFT))
+		{
+			//float doffsetX = event.GetX() - lastMousePosition.first;
+			//float doffsetY = lastMousePosition.second - event.GetY();
+			//float angle = glm::sqrt(doffsetX * doffsetX + doffsetY * doffsetY);
+			//m_yaw -= doffsetX * m_deltaT * m_RotationSpeed;
+			//m_pitch -= doffsetY * m_deltaT * m_RotationSpeed;
+			///*if (m_pitch > 89.0f)
+			//	m_pitch = 89.0f;
+			//if (m_pitch < -89.0f)
+			//	m_pitch = -89.0f;*/
+			//glm::vec3 dir = glm::normalize(glm::vec3(doffsetY, doffsetX, 0));
+
+			//RotationAroundPoint(glm::vec3(0), glm::radians(angle), -dir);
 		}
 
 		lastMousePosition.first = event.GetX();

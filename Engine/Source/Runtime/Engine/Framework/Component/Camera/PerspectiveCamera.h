@@ -32,6 +32,7 @@ namespace BEngine
 
 		void UpdateProjection(float fov, float width, float height, float Z_near, float Z_far);
 		void UpdateProjection(float fov, float aspect, float Z_near = 0.1, float Z_far = 100);
+		virtual void ResetProjection(float aspect) override;
 	private:
 
 
@@ -42,6 +43,8 @@ namespace BEngine
 		void UpdateVPMatrix();
 
 		void SetModel();
+
+		void RotationAroundPoint(glm::vec3 rotatepoint, float angle, glm::vec3 rotatorvector);
 
 
 		// event bind

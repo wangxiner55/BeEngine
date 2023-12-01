@@ -44,9 +44,34 @@ namespace BEngine
 		Ref<Shader> Get(const std::string& name);
 		bool Exists(const std::string& name) const;
 
+		static ShaderLibrary& GetInstance()
+		{
+			//std::call_once(flag, init);
+			static ShaderLibrary instance;
+			return instance;
+		}
+
+		void PreLoad(const std::string& path, const std::string& ext);
+
+		static void Destory()
+		{
+			ShaderLibrary().~ShaderLibrary();
+		}
+
+
 	private:
 		std::unordered_map<std::string, Ref<Shader>> m_Shaders;
+
+
+		ShaderLibrary();
+		~ShaderLibrary() = default;
+
+		ShaderLibrary(const ShaderLibrary&) = delete;
+		ShaderLibrary& operator = (const ShaderLibrary&) = delete;
+
 	};
+
+	
 
 
 }

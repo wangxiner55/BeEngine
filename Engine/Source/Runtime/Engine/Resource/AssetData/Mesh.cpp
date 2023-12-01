@@ -62,6 +62,11 @@ namespace BEngine
 
 	}
 
+	void Mesh::BindShader(const Ref<Shader>& shader)
+	{
+		m_Shader = shader;
+	}
+
 	void Mesh::SetUpMesh()
 	{
 		m_VertexArray = VertexArray::Create();

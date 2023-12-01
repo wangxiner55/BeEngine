@@ -9,6 +9,7 @@
 #include <imgui.h>
 
 #include <Engine/Framework/Component/Component/Component.h>
+#include <Engine/Framework/Component/Mesh/MeshComponent.h>
 #include <Engine/Geo/Geo.h>
 
 #include <glm/gtc/type_ptr.hpp>
@@ -18,6 +19,7 @@
 
 #include <Engine/Function/LoadModel/TLoad.h>
 #include <Engine/Function/LoadModel/AssimpLoad.h>
+#include <Engine/Render/Shader.h>
 
 namespace BEngine
 {
@@ -25,58 +27,39 @@ namespace BEngine
 	EditorLayer::EditorLayer()
 		:Layer("Editor")
 	{
-        m_VertexArray = VertexArray::Create();
-
-        Ref<VertexBuffer> vertexBuffer;
-        Ref<IndexBuffer> indexBuffer;
-
-
-        vertexBuffer = (VertexBuffer::Create(boxVertex, boxVertex.size()*sizeof(Vertex)));
-        indexBuffer = (IndexBuffer::Create(boxIndex, boxIndex.size()));
-
-        {
-            BufferLayout layout =
-            {
-                {ShaderDataType::Float3, "a_Position"},
-                {ShaderDataType::Float3, "a_Normal"},
-                {ShaderDataType::Float2, "a_UV"},
-                {ShaderDataType::Float3, "a_Tangent"},
-                {ShaderDataType::Float3, "a_Bitangent"},
-                {ShaderDataType::Int4,   "a_BoneID"},
-                {ShaderDataType::Float4, "a_Weight"}
-            };
-
-            vertexBuffer->SetLayout(layout);
-        }
-
-        m_VertexArray->AddVertexBuffer(vertexBuffer);
-        m_VertexArray->SetIndexBuffer(indexBuffer);
-
-        std::string filepath = "D:\\Engine\\BeEngine\\Engine\\Assets\\Shader\\Texture.glsl";
 
         m_Camera = Camera::Create(CameraType::PerspectiveCamera);
 
-        m_ShaderLibrary = CRef<ShaderLibrary>();
-        m_ShaderLibrary->Load(filepath);
+
+        ShaderLibrary::GetInstance();
+
 
 	}
 
 	void EditorLayer::OnAttach()
 	{
 
-        std::string loadpath = "D:/Engine/Geo/Example/nanosuit.obj";
-        model = CRef<Model>(loadpath);
+
+        std::string Checkloadpath = "D:/Engine/Geo/Example/Check.obj";
+
+        Checkmodel = CRef<Model>(Checkloadpath);
+
 
 		FramebufferSpecification spec;
 		spec.width = 1280;
 		spec.height = 720;
 		m_Framebuffer = Framebuffer::Create(spec);
-        m_Camera->SetPosition({ 0,0,-5 });
-;
+
+
         m_ActiveScene = CRef<Scene>();
-        auto cube = m_ActiveScene->CreateEntity();
-        m_ActiveScene->Reg().emplace<TransformComponent>(cube);
-        m_ActiveScene->Reg().emplace<CubeTransformComponent>(cube, glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
+
+        auto Mesh = m_ActiveScene->CreateEntity("Lion");
+
+        Mesh.AddComponent<MeshTransformComponent> (glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
+        Mesh.AddComponent<ModelComponent>("D:/Engine/Geo/Example/nanosuit.obj");
+
+        m_Entity = Mesh;
+        
 	}
 
 	void EditorLayer::OnDetach()
@@ -100,16 +83,15 @@ namespace BEngine
 
         Render::BeginScene(m_Camera);
 
-        //
+        
         m_Camera->Tick(ts);
 
 
-        //m_Texture2D->Bind();
-        auto Shader = m_ShaderLibrary->Get("Texture");
-        model->Draw(Shader);
+        auto Shader = ShaderLibrary::GetInstance().Get("Checker");
+        Checkmodel->Draw(Shader);
+
         std::dynamic_pointer_cast<OpenGLShader>(Shader)->UploadUniformFloat3("u_Color", m_color);
 
-        //Render::Submit(m_VertexArray, Shader);
         Render::EndScene();
         m_Framebuffer->UnBind();
 
@@ -178,9 +160,19 @@ namespace BEngine
         }
 
         ImGui::Begin("Settings");
-        ImGui::ColorEdit3("Square Color", glm::value_ptr(m_color));
+        ImGui::Separator();
+        ImGui::Text("ms: %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+        ImGui::Separator();
         ImGui::SliderFloat("Rotate Speed", &m_Camera->GetRotationSpeed(), 0.0f, 200.0f, "%.0f");
-        ImGui::SliderFloat("Move Speed", &m_Camera->GetMovementSpeed(), 0.0f, 400.0f, "%.0f");
+        ImGui::SliderFloat("Move Speed", &m_Camera->GetMovementSpeed(), 0.0f, 800.0f, "%.0f");
+        ImGui::Text("pos: %.3f,%.3f,%.3f",m_Camera->GetPosition().x, m_Camera->GetPosition().y, m_Camera->GetPosition().z);
+        ImGui::Text("front: %.3f,%.3f,%.3f",m_Camera->GetCameraFront().x, m_Camera->GetCameraFront().y, m_Camera->GetCameraFront().z);
+        ImGui::Text("up: %.3f,%.3f,%.3f",m_Camera->GetCameraUp().x, m_Camera->GetCameraUp().y, m_Camera->GetCameraUp().z);
+        ImGui::Text("right: %.3f,%.3f,%.3f",m_Camera->GetCameraRight().x, m_Camera->GetCameraRight().y, m_Camera->GetCameraRight().z);
+        ImGui::Text("yaw_pitch: %.3f,%.3f,%.3f",m_Camera->GetCameraYawPitch().x, m_Camera->GetCameraYawPitch().y, m_Camera->GetCameraYawPitch().z);
+        ImGui::Separator();
+        auto& tag = m_Entity.GetComponent<TagComponent>().Tag;
+        ImGui::Text("%s", tag.c_str());
         ImGui::End();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
@@ -191,12 +183,12 @@ namespace BEngine
             m_Framebuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
             m_ViewportSize = { viewportPanelSize.x,viewportPanelSize.y };
 
-            //m_Camera->
+            m_Camera->ResetProjection((uint32_t)viewportPanelSize.x / (uint32_t)viewportPanelSize.y);
             //m_Camera
         }
         //uint32_t textureID = m_Texture2D->GetRenderID();
         uint32_t RenderID = m_Framebuffer->GetColorAttachmentRendererId();
-        ImGui::Image((void*)RenderID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 1, 0 }, ImVec2{ 0, 1 });
+        ImGui::Image((void*)RenderID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
         ImGui::End();
         ImGui::PopStyleVar();
 

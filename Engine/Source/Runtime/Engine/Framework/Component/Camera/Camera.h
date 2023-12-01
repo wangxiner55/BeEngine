@@ -43,6 +43,10 @@ namespace BEngine
 		//virtual void OnResize(const float& width, const float& height) = 0;
 
 		virtual const glm::vec3& GetPosition() { return m_CameraPosition; }
+		virtual const glm::vec3& GetCameraFront() { return m_CameraFront; }
+		virtual const glm::vec3& GetCameraUp() { return m_CameraUp; }
+		virtual const glm::vec3& GetCameraRight() { return m_CameraRight; }
+		virtual const glm::vec3& GetCameraYawPitch() { return glm::vec3(m_yaw,m_pitch,0); }
 		virtual const float& GetRotation() { return m_RotationSpeed; }
 
 		const glm::mat4& GetModelMatrix() const { return m_ModelMatrix; }
@@ -53,19 +57,21 @@ namespace BEngine
 		const glm::mat4& GetVPMatrix() const { return m_VPMatrix; }
 		const glm::mat4& GetMVPMatrix() const { return m_MVPMatrix; }
 
+		virtual float& GetRotationSpeed() { return m_RotationSpeed; }
+		virtual float& GetMovementSpeed() { return m_moveSpeed; }
+
+
 		virtual void UpdateModelMatrix() = 0;
 		virtual void UpdateViewMatrix() = 0;
 		virtual void UpdateProjectMatrix() = 0;
 
-
+		virtual void ResetProjection( float aspect) = 0;
 
 		virtual Ref<void> GetCurrentCamera() = 0;
 		virtual void OnEvent(Event& event) = 0;
 		virtual void Tick(Timestep ts) { };
 
 
-		virtual float& GetRotationSpeed() { return m_RotationSpeed; }
-		virtual float& GetMovementSpeed() { return m_moveSpeed; }
 
 	protected:
 
@@ -79,7 +85,7 @@ namespace BEngine
 
 
 		glm::vec3 m_CameraRotationVector = { 0.f, 0.f, 1.0f };
-		glm::vec3 m_CameraPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 m_CameraPosition = glm::vec3(0.0f, 20.0f, 20.0f);
 		glm::vec3 m_CameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
 		glm::vec3 m_CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 		glm::vec3 m_CameraRight = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -93,13 +99,13 @@ namespace BEngine
 		float m_aspect = 1280.0 / 720.0;
 
 		float m_yaw = -90.0f;
-		float m_pitch = 0.0f;
+		float m_pitch = -30.0f;
 		float m_movespeed = 2.5f;
 		float m_sensitity = 0.1f;
 
 
 		float m_RotationSpeed = 200.0f;
-		float m_moveSpeed = 100.0f;
+		float m_moveSpeed = 400.0f;
 		
 		float m_deltaT = 0.0f;
 

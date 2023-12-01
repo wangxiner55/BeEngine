@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-
+#include <io.h>
 #include "RHI.h"
 #include "Render.h"
 #include "Platform/OpenGL/Graphics/OpenGLShader.h"
@@ -83,6 +83,25 @@ namespace BEngine
 	bool ShaderLibrary::Exists(const std::string& name) const
 	{
 		return m_Shaders.find(name) != m_Shaders.end();
+	}
+
+	void ShaderLibrary::PreLoad(const std::string& path, const std::string& ext)
+	{
+
+		intptr_t file_handle = 0;
+		struct _finddata_t file_info;
+		std::string temp;
+		if ((file_handle = _findfirst(temp.assign(path).append("/*" + ext).c_str(), &file_info)) != -1) {
+			do {
+				Load(temp.assign(path).append("/").append(file_info.name));
+			} while (_findnext(file_handle, &file_info) == 0);
+			_findclose(file_handle);
+		}
+	}
+
+	ShaderLibrary::ShaderLibrary()
+	{
+		PreLoad("D:/Engine/BeEngine/Engine/Assets/Shader", ".glsl");
 	}
 
 	Ref<Shader> ShaderLibrary::Get(const std::string& name)

@@ -47,6 +47,11 @@ namespace BEngine
 	{
 		return Ref<void>();
 	}
+	void OrthographicCamera::ResetProjection(float aspect)
+	{
+		UpdateProjectMatrix();
+	}
+
 	bool OrthographicCamera::OnKeyPressedEvent(KeyPressedEvent& event)
 	{
 		if (event.GetKeyCode() == BR_KEY_LEFT || event.GetKeyCode() == BR_KEY_A)

@@ -27,6 +27,8 @@ namespace BEngine
 
 		virtual void OnEvent(Event& event) override;
 		virtual Ref<void> GetCurrentCamera() override;
+		virtual void ResetProjection(float aspect) override;
+	private:
 	private:
 		void RecalculateViewMatrix();
 		bool OnKeyPressedEvent(KeyPressedEvent& event);

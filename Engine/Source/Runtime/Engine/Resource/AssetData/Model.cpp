@@ -240,5 +240,9 @@ namespace BEngine
 		}
 	}
 
+    void Model::Draw()
+    {
+    }
+
 
 }

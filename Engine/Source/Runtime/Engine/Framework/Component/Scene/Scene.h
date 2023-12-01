@@ -1,8 +1,11 @@
 #pragma once
 #include "../../../ThirdParty/Entt/include/Entt.hpp"
+#include "../Component/Entity.h"
 
 namespace BEngine
 {
+	class Entity;
+
 	class Scene
 	{
 	public:
@@ -11,7 +14,7 @@ namespace BEngine
 
 
 
-		entt::entity CreateEntity();
+		Entity CreateEntity(const std::string& name = std::string());
 
 		entt::registry& Reg() { return m_Registry; }
 
@@ -20,6 +23,7 @@ namespace BEngine
 
 		entt::registry m_Registry;
 
+		friend class Entity;
 
 	};
 

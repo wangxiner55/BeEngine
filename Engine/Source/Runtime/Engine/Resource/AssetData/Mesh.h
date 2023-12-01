@@ -21,13 +21,14 @@ namespace BEngine
 		~Mesh();
 
 		void Draw(const Ref<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f));
-
+		void BindShader(const Ref<Shader>& shader);
 		void SetUpMesh();
 	private:
 
 		Ref<VertexArray>			 m_VertexArray;
 		Ref<VertexBuffer>			 m_vertexBuffer;
 		Ref<IndexBuffer>			 m_indexBuffer;
+		Ref<Shader>					 m_Shader;
 
 		std::vector<Vertex>          m_Vertices;
 		std::vector<uint32_t>		 m_Indices;

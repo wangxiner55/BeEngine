@@ -28,7 +28,7 @@
 #define BR_ASSERT(x,...)
 #define BR_CORE_ASSERT(x,...)
 
-#endif // HZ_ENABLE_ASSERTS
+#endif // BR_ENABLE_ASSERTS
 
 
 #define BIT(x) (1 << x)
@@ -36,6 +36,7 @@
 
 
 #define EVENT_BIND(x) std::bind(&x, this, std::placeholders::_1)
+//#define EVENT_BIND(x) [this](auto&&... args) -> decltype(auto) { return this->x(std::forward<decltype(args)>(args)...)}
 
 
 

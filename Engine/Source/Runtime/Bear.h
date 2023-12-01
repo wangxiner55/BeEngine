@@ -34,6 +34,9 @@
 #include "../Runtime/Engine/Render/FrameBuffer.h"
 
 
+#include "../Runtime/Engine/Framework/Component/Component/Entity.h"
+#include "../Runtime/Engine/Framework/Component/Scene/Scene.h"
+
 // Component
 #include "../Runtime/Engine/Framework/Component/Component/Component.h"
 
